@@ -10,6 +10,6 @@ E olha, já que abri a porta, fique a vontade que isso aqui é nosso e, desde j�
 
 **Vamos juntes?**
 
-(As vezes tem um café passado no meu Blog, passa lá.)[www.fernandakellyrs.com]
+[As vezes tem um café passado no meu Blog, passa lá.](www.fernandakellyrs.com)
 
 
