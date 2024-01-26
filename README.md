@@ -4,10 +4,12 @@ Acredito que quem assim como eu sempre utilizou o R, quando pensa em programar e
 
 Então...
 
-Se você tem interesse em aprender GitHub lá do miudinho, clique aqui e dá uma espiada, mas se o seu interesse é aprender um pouco mais sobre Python, esse é o repositório que utilizo para disseminar esse conhecimento.
+Se você tem interesse em aprender GitHub lá do miudinho, clique aqui e dá uma espiada, mas se o seu interesse é aprender um pouco mais sobre Python (o título do repositório é isso né?), esse é o repositório que utilizo para disseminar esse conhecimento. 
 
-Vamos juntes?
+E olha, já que abri a porta, fique a vontade que isso aqui é nosso e, desde já, peço desculpas por não ter passado café.
 
+**Vamos juntes?**
 
+(As vezes tem um café passado no meu Blog, passa lá.)[www.fernandakellyrs.com]
 
 
