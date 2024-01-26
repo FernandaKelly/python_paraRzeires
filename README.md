@@ -1,1 +1,2 @@
-# python_paraRzeires
+# Python para pessoas que programam em R
+
