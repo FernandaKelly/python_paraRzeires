@@ -2,7 +2,6 @@
 title: "Meu relatório em Quarto" # Título do relatório
 subtitle: "**Minicurso - Introdução ao Quarto**"
 author: "Ariane Hayana" # Autor(a)
-jupyter: python3
 lang: pt # Linguagem em português
 date: "`r format(Sys.Date())`" # Data do relatório
 date-format: short # Formato de data curto: dd/MM/yyyy 
@@ -12,7 +11,7 @@ format:
       #css: ["custom.css"] # Customização com css
       code-fold: false # code-fold: true para "ocultar" o bloco de códigos
       code-tools: true  #code-tools: true para ativar ferramentas de interação com os códigos
-  #number-sections: true # Número de seções/subseções
+  #    number-sections: true # Número de seções/subseções
       theme: 
         light: cosmo
         dark: superhero # Sugestão: superhero/vapor Mudar o tema do relatório aqui
@@ -27,32 +26,6 @@ execute:
 params:
   dataset: "iris" # Parâmetros aplicável em todo o documento
 ---
-
-# Tipo de Variáveis
-
-```{python}
-
-```
-
-```{python}
-objeto_texto = "primeira_linha"
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -72,10 +45,6 @@ iris |>
   reactable::reactable(groupBy = "Species", # Agrupando pela coluna 'Species'
   searchable = TRUE, # Inserindo uma busca na tabela
   outlined = TRUE) # Linhas na tabela
-```
-
-```{python}
-1+1
 ```
 
 ## Setosa
@@ -220,3 +189,5 @@ dados_gapminder |>                                  # <1>
 4.  Inserindo uma busca na tabela
 5.  Linhas na tabela
 6.  Ordem crescente na coluna 'ano'
+
+
