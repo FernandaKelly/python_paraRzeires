@@ -40,6 +40,8 @@ objeto_texto_py
 objeto_texto_py.upper()
 objeto_texto_py.split(" ",3)
 ```
+
+
 ```{python}
 nome_completo = "Fernanda Kelly Romeiro Silva"
 nome_completo.count("o")
