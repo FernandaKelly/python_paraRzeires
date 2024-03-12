@@ -1,5 +1,5 @@
 ---
-title: "Python no Quarto"
+title: "Python no Quarto (que é do R)"
 author: "Fernanda Kelly R. Silva"
 format: html
 editor: visual
@@ -17,6 +17,12 @@ When you click the **Render** button a document will be generated that includes 
 ```{python}
 1 + 1
 ```
+
+
+```{r}
+1+1
+```
+
 
 You can add options to executable code like this
 
