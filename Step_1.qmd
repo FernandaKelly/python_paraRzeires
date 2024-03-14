@@ -1,23 +1,49 @@
 ---
+<<<<<<< HEAD
 title: "Python no Quarto (que é do R)"
 author: "Fernanda Kelly R. Silva"
 format: html
 editor: visual
+=======
+title: "Quarto: do R para o Python" # Título do relatório
+subtitle: "**Estudos - Introdução ao Python**"
+author: "Fernanda Kelly" # Autor(a)
+>>>>>>> 4ea069bc007e0c3b1b8e619fec112033480d3491
 jupyter: python3
+lang: pt # Linguagem em português
+date: "`r format(Sys.Date())`" # Data do relatório
+date-format: short # Formato de data curto: dd/MM/yyyy 
+toc: true # Adiciona um índice no relatório
+format: 
+    html: 
+      #css: ["custom.css"] # Customização com css
+      code-fold: false # code-fold: true para "ocultar" o bloco de códigos
+      code-tools: true  #code-tools: true para ativar ferramentas de interação com os códigos
+  #number-sections: true # Número de seções/subseções
+      theme: 
+        light: cosmo
+        dark: superhero # Sugestão: superhero/vapor Mudar o tema do relatório aqui
+title-block-banner: "#874a9c" # Pode ser 'true', uma cor ou imagem
+code-annotations: hover # Para anotações em códigos
+execute:
+  warning: false
+  message: false
+#reference-location: margin
+#citation-location: margin
+#bibliography: references.bib
+params:
+  dataset: "iris" # Parâmetros aplicável em todo o documento
 ---
 
-## Quarto
+# Tipo de Variáveis
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
+## Python
 ```{python}
-1 + 1
+objeto_texto_py = "primeira linha em python a gente nunca esquece"
+objeto_texto_py
 ```
 
+<<<<<<< HEAD
 
 ```{r}
 1+1
@@ -26,9 +52,47 @@ When you click the **Render** button a document will be generated that includes 
 
 You can add options to executable code like this
 
+=======
+>>>>>>> 4ea069bc007e0c3b1b8e619fec112033480d3491
 ```{python}
-#| echo: false
-2 * 2
+objeto_texto_py.upper()
+objeto_texto_py.split(" ",3)
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+
+```{python}
+nome_completo = "Fernanda Kelly Romeiro Silva"
+nome_completo.count("o")
+cpf_usuario = "034.443.591-25"
+
+cpf_usuario.replace(".","").replace("-", "")
+#ou
+cpf_2 = (cpf_usuario.
+          replace(".","").
+          replace("-", ""))
+
+```
+
+```{python}
+minha_lista = [1,2,3]
+
+```
+
+
+
+## R
+
+```{r}
+library(stringr)
+objeto_texto <-  "primeira linha em python a gente nunca esquece"
+objeto_texto
+
+
+```
+
+```{r}
+stringr::str_to_upper(objeto_texto)
+stringr::str_split(objeto_texto, " ", 4)
+```
+
+
