@@ -170,3 +170,8 @@ num_array1.astype("int")
 ```{python}
 num_array1.dtype
 ```
+
+```{python}
+
+```
+
