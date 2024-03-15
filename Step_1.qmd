@@ -28,19 +28,21 @@ params:
   dataset: "iris" # Parâmetros aplicável em todo o documento
 ---
 
-# Tipo de Variáveis
+# Python
 
-## Python
 ```{python}
 objeto_texto_py = "primeira linha em python a gente nunca esquece"
 objeto_texto_py
 ```
 
 ```{python}
+type(objeto_texto_py)
+```
+
+```{python}
 objeto_texto_py.upper()
 objeto_texto_py.split(" ",3)
 ```
-
 
 ```{python}
 nome_completo = "Fernanda Kelly Romeiro Silva"
@@ -55,26 +57,116 @@ cpf_2 = (cpf_usuario.
 
 ```
 
+## Listas
+
 ```{python}
 minha_lista = [1,2,3]
 
 ```
 
-
-
-## R
-
-```{r}
+```{r, warning=FALSE}
 library(stringr)
 objeto_texto <-  "primeira linha em python a gente nunca esquece"
 objeto_texto
-
-
 ```
 
 ```{r}
+#| warning=FALSE
+
+base::class(objeto_texto)
+```
+
+```{r, warning=FALSE}
 stringr::str_to_upper(objeto_texto)
 stringr::str_split(objeto_texto, " ", 4)
 ```
 
+## Introdução ao Pandas
 
+```{python}
+#Importação da biblioteca
+import pandas
+```
+
+### Brincadeirinhas
+
+Vamos ler uma base de dados através da biblioteca pandas, que diferente do R, todas as opções de leitura de dados se encontram nessa biblioteca.
+
+```{python}
+df = pandas.read_csv("dados/imdb.csv")
+type(df)
+```
+
+```{python}
+df
+```
+
+```{python}
+df.describe()
+# O python joga fora todos os NA's
+```
+
+```{python}
+df.info()
+```
+
+```{python}
+df.sum()
+df.receita.sum()
+```
+
+```{python}
+help(pandas.read_csv)
+```
+
+### Principais verbos
+
+-   Ordenar linhas
+-   Selecionar linhas/colunas
+-   Criar colunas
+-   Sumarizar
+-   Pivotagem
+
+## Numpy
+
+```{python}
+import numpy
+```
+
+```{python}
+num_array1 = numpy.array([1,2,3,4])
+num_array2 = numpy.array([5,6,7,8])
+```
+
+```{python}
+type(num_array1)
+```
+
+```{python}
+num_array1 + num_array2
+num_array1/num_array2
+num_array1**num_array2
+num_array1-num_array2
+```
+
+```{python}
+num_array1.mean()
+num_array1.min()
+num_array.std()
+num_array.max()
+```
+
+```{python}
+numpy.log10(num_array1)
+```
+
+Numpy é uma biblioteca que serve para você fazer contas com vetores, métodos matemáticos, enquanto o Pandas é uma biblioteca de manipulação de dados, então ela define o DataFrame e um milhão de métodos para mexer no DataFrame, tipo o statsModels é a biblioteca de estatística do Python.
+
+```{python}
+num_array1.astype("str")
+num_array1.astype("int")
+```
+
+```{python}
+num_array1.dtype
+```
