@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Ariane Hayana">
+<meta name="author" content="Fernanda Kelly">
 
-<title>Meu relatório em Quarto</title>
+<title>Quarto: do R para o Python</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -101,9 +101,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link href="Step_1_files/libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <style>
     .quarto-title-block .quarto-title-banner {
-      background: #874a9c;
+      background: true;
     }
     </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -113,8 +116,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <div class="quarto-title-block"><div><h1 class="title">Meu relatório em Quarto</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Código</button></div></div>
-            <p class="subtitle lead"><strong>Minicurso - Introdução ao Quarto</strong></p>
+      <div class="quarto-title-block"><div><h1 class="title">Quarto: do R para o Python</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Código</button></div></div>
+            <p class="subtitle lead"><strong>Estudos - Introdução ao Python</strong></p>
                       </div>
   </div>
     
@@ -124,7 +127,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div>
       <div class="quarto-title-meta-heading">Autor</div>
       <div class="quarto-title-meta-contents">
-               <p>Ariane Hayana </p>
+               <p>Fernanda Kelly </p>
             </div>
     </div>
       
@@ -145,172 +148,940 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#conjunto-de-dados-iris" id="toc-conjunto-de-dados-iris" class="nav-link active" data-scroll-target="#conjunto-de-dados-iris">Conjunto de dados: Iris</a>
+  <li><a href="#python" id="toc-python" class="nav-link active" data-scroll-target="#python">Python</a>
   <ul class="collapse">
-  <li><a href="#inserindo-código-do-r-em-linha-de-texto" id="toc-inserindo-código-do-r-em-linha-de-texto" class="nav-link" data-scroll-target="#inserindo-código-do-r-em-linha-de-texto">Inserindo código do R em linha de texto</a></li>
-  <li><a href="#visualizações" id="toc-visualizações" class="nav-link" data-scroll-target="#visualizações">Visualizações</a></li>
-  <li><a href="#tabela-descritiva-com-pacote-summarytools" id="toc-tabela-descritiva-com-pacote-summarytools" class="nav-link" data-scroll-target="#tabela-descritiva-com-pacote-summarytools">Tabela descritiva com pacote <code>summarytools</code></a></li>
-  <li><a href="#vídeos-no-relatório-quarto" id="toc-vídeos-no-relatório-quarto" class="nav-link" data-scroll-target="#vídeos-no-relatório-quarto">Vídeos no relatório Quarto</a></li>
-  <li><a href="#anotações-em-códigos" id="toc-anotações-em-códigos" class="nav-link" data-scroll-target="#anotações-em-códigos">Anotações em códigos</a></li>
+  <li><a href="#introdução-ao-pandas" id="toc-introdução-ao-pandas" class="nav-link" data-scroll-target="#introdução-ao-pandas">Introdução ao Pandas</a>
+  <ul class="collapse">
+  <li><a href="#brincadeirinhas" id="toc-brincadeirinhas" class="nav-link" data-scroll-target="#brincadeirinhas">Brincadeirinhas</a></li>
+  <li><a href="#principais-verbos" id="toc-principais-verbos" class="nav-link" data-scroll-target="#principais-verbos">Principais verbos</a></li>
+  </ul></li>
+  <li><a href="#numpy" id="toc-numpy" class="nav-link" data-scroll-target="#numpy">Numpy</a></li>
   </ul></li>
   </ul>
 </nav>
 </div>
-<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
-<section id="conjunto-de-dados-iris" class="level1 page-columns page-full">
-<h1>Conjunto de dados: Iris</h1>
-<p>O conjunto de dados consiste em 50 amostras de cada uma das três espécies de <em>Iris</em> ( <em>Iris setosa</em>, <em>Iris virginica</em> e <em>Iris versicolor</em>). Quatro variáveis foram medidas em cada amostra: o comprimento e a largura das sépalas e pétalas, em centímetros.</p>
-<p>Fonte: <a href="https://pt.wikipedia.org/wiki/Conjunto_de_dados_flor_Iris">Wikipédia</a></p>
-<p>Os dados podem ser consultados na guia <em>Tabela</em>, bem como as imagens das flores:</p>
-<div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Tabela</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Setosa</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Versicolor</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Virginica</a></li></ul>
-<div class="tab-content">
-<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<pre class="{r}"><code>iris |&gt;
-  reactable::reactable(groupBy = "Species", # Agrupando pela coluna 'Species'
-  searchable = TRUE, # Inserindo uma busca na tabela
-  outlined = TRUE) # Linhas na tabela</code></pre>
+<section id="python" class="level1">
+<h1>Python</h1>
+<section id="introdução-ao-pandas" class="level2">
+<h2 class="anchored" data-anchor-id="introdução-ao-pandas">Introdução ao Pandas</h2>
 <div class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">+</span><span class="dv">1</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>2</code></pre>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Importação da biblioteca</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="brincadeirinhas" class="level3">
+<h3 class="anchored" data-anchor-id="brincadeirinhas">Brincadeirinhas</h3>
+<p>Vamos ler uma base de dados através da biblioteca pandas, que diferente do R, todas as opções de leitura de dados se encontram nessa biblioteca.</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pandas.read_csv(<span class="st">"dados/imdb.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(df)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>pandas.core.frame.DataFrame</code></pre>
 </div>
 </div>
-</div>
-<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div class="sourceCode" id="cb4"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="al">![Iris setosa](img/setosa.png)</span>{fig-align="center" width="300"}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/setosa.png" class="img-fluid figure-img" width="300"></p>
-<p></p><figcaption class="figure-caption">Iris setosa</figcaption><p></p>
-</figure>
-</div>
-</div>
-<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<div class="sourceCode" id="cb5"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="al">![Iris versicolor](img/versicolor.png)</span>{fig-align="center" width="304"}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/versicolor.png" class="img-fluid figure-img" width="304"></p>
-<p></p><figcaption class="figure-caption">Iris versicolor</figcaption><p></p>
-</figure>
-</div>
-</div>
-<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
-<div class="sourceCode" id="cb6"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="al">![Iris virginica](img/virginica.png)</span>{fig-align="center" width="300"}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="img/virginica.png" class="img-fluid figure-img" width="300"></p>
-<p></p><figcaption class="figure-caption">Iris virginica</figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<section id="inserindo-código-do-r-em-linha-de-texto" class="level3">
-<h3 class="anchored" data-anchor-id="inserindo-código-do-r-em-linha-de-texto">Inserindo código do R em linha de texto</h3>
-<p>Você pode automatizar a apresentação de seus resultados no texto:</p>
-<blockquote class="blockquote">
-<p>O <em>dataset</em> <code>r params$dataset</code> tem <code>r ncol(iris)</code> colunas e <code>r nrow(iris)</code> linhas. As variáveis do <em>dataset</em> são <em><code>r names(iris)</code></em>.</p>
-</blockquote>
-</section>
-<section id="visualizações" class="level3">
-<h3 class="anchored" data-anchor-id="visualizações">Visualizações</h3>
-<p>Podemos gerar uma matriz de gráficos de dispersão interativa usando a biblioteca <code>JavaScript D3</code> do pacote <code>pairsD3</code> <span class="citation" data-cites="pairsD3">[@pairsD3]</span>.</p>
-<pre class="{r}"><code>#| fig-cap: "Matriz interativa - Iris"
-#| code-fold: true
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
 
-library(pairsD3)
-pairsD3(iris[,1:4], group=iris[,5])</code></pre>
-<pre class="{r}"><code>#| fig-width: 5
-#| fig-height: 3
-#| warning: false
-#| fig-align: "center"
-#| fig-cap: "Boxplot estático."
+<div>
 
-library(ggplot2)
-plot &lt;- ggplot(iris, 
-  aes(x = Species,
-      y =  Sepal.Length)) + 
-  geom_boxplot(aes(fill = Species)) +
-  labs(caption = "Elaborado por: Ariane Hayana") +
-  xlab("Espécies") + 
-  ylab("Sepal Length") + 
-  theme_grey();plot</code></pre>
-<pre class="{r}"><code>#| fig-width: 5
-#| fig-height: 3
-#| warning: false
-#| fig-cap: "Boxplot dinâmico."
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>id_filme</th>
+      <th>titulo</th>
+      <th>ano</th>
+      <th>data_lancamento</th>
+      <th>generos</th>
+      <th>duracao</th>
+      <th>pais</th>
+      <th>idioma</th>
+      <th>orcamento</th>
+      <th>receita</th>
+      <th>receita_eua</th>
+      <th>nota_imdb</th>
+      <th>num_avaliacoes</th>
+      <th>direcao</th>
+      <th>roteiro</th>
+      <th>producao</th>
+      <th>elenco</th>
+      <th>descricao</th>
+      <th>num_criticas_publico</th>
+      <th>num_criticas_critica</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>tt0023352</td>
+      <td>Prestige</td>
+      <td>1931.0</td>
+      <td>1932-01-22</td>
+      <td>Adventure, Drama</td>
+      <td>71</td>
+      <td>USA</td>
+      <td>English</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.7</td>
+      <td>240</td>
+      <td>Tay Garnett</td>
+      <td>Harry Hervey, Tay Garnett</td>
+      <td>RKO Pathé Pictures</td>
+      <td>Ann Harding, Adolphe Menjou, Melvyn Douglas, I...</td>
+      <td>A woman travels to a French penal colony in In...</td>
+      <td>12.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>tt0037946</td>
+      <td>Nob Hill</td>
+      <td>1945.0</td>
+      <td>1945-11-15</td>
+      <td>Drama, Musical</td>
+      <td>95</td>
+      <td>USA</td>
+      <td>English</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>6.3</td>
+      <td>246</td>
+      <td>Henry Hathaway</td>
+      <td>Wanda Tuchock, Norman Reilly Raine</td>
+      <td>Twentieth Century Fox</td>
+      <td>George Raft, Joan Bennett, Vivian Blaine, Pegg...</td>
+      <td>The owner of a San Francisco saloon yearns to ...</td>
+      <td>11.0</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>tt0216204</td>
+      <td>The Shade</td>
+      <td>1999.0</td>
+      <td>2000-03-01</td>
+      <td>Drama</td>
+      <td>83</td>
+      <td>USA</td>
+      <td>English</td>
+      <td>400000.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>7.1</td>
+      <td>102</td>
+      <td>Raphaël Nadjari</td>
+      <td>Fyodor Dostoevsky, Raphaël Nadjari</td>
+      <td>Filmaker</td>
+      <td>Richard Edson, Lorie Marino, Jeff Ware, Barbar...</td>
+      <td>NaN</td>
+      <td>1.0</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>tt0171889</td>
+      <td>Viewer Discretion Advised</td>
+      <td>1998.0</td>
+      <td>2012-05-01</td>
+      <td>Comedy, Horror</td>
+      <td>105</td>
+      <td>USA</td>
+      <td>English</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3.4</td>
+      <td>111</td>
+      <td>Eddie Beverly Jr., Tommy Blaze</td>
+      <td>Tommy Blaze, Philip Morton</td>
+      <td>Troma Entertainment</td>
+      <td>Ken Donovan, Philip Morton, Caroline Jett, Tom...</td>
+      <td>Ted Smith becomes trapped in the TV shows he w...</td>
+      <td>5.0</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>tt0092699</td>
+      <td>Broadcast News</td>
+      <td>1987.0</td>
+      <td>1988-04-01</td>
+      <td>Comedy, Drama, Romance</td>
+      <td>133</td>
+      <td>USA</td>
+      <td>English, Spanish, French, German</td>
+      <td>20000000.0</td>
+      <td>67331309.0</td>
+      <td>51249404.0</td>
+      <td>7.2</td>
+      <td>26257</td>
+      <td>James L. Brooks</td>
+      <td>James L. Brooks</td>
+      <td>Amercent Films</td>
+      <td>William Hurt, Albert Brooks, Holly Hunter, Rob...</td>
+      <td>Take two rival television reporters: one hands...</td>
+      <td>142.0</td>
+      <td>62.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>28485</th>
+      <td>tt7975244</td>
+      <td>Jumanji: The Next Level</td>
+      <td>2019.0</td>
+      <td>2019-12-25</td>
+      <td>Action, Adventure, Comedy</td>
+      <td>123</td>
+      <td>USA</td>
+      <td>English</td>
+      <td>125000000.0</td>
+      <td>796575993.0</td>
+      <td>316831246.0</td>
+      <td>6.7</td>
+      <td>168698</td>
+      <td>Jake Kasdan</td>
+      <td>Jake Kasdan, Jeff Pinkner</td>
+      <td>Matt Tolmach Productions</td>
+      <td>Dwayne Johnson, Kevin Hart, Jack Black, Karen ...</td>
+      <td>In Jumanji: The Next Level, the gang is back b...</td>
+      <td>940.0</td>
+      <td>241.0</td>
+    </tr>
+    <tr>
+      <th>28486</th>
+      <td>tt0051948</td>
+      <td>Monster on the Campus</td>
+      <td>1958.0</td>
+      <td>1958-12-17</td>
+      <td>Horror, Sci-Fi</td>
+      <td>77</td>
+      <td>USA</td>
+      <td>English</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.8</td>
+      <td>1517</td>
+      <td>Jack Arnold</td>
+      <td>David Duncan</td>
+      <td>Universal International Pictures (UI)</td>
+      <td>Arthur Franz, Joanna Moore, Judson Pratt, Nanc...</td>
+      <td>The blood of a primitive fish exposed to gamma...</td>
+      <td>49.0</td>
+      <td>38.0</td>
+    </tr>
+    <tr>
+      <th>28487</th>
+      <td>tt1369706</td>
+      <td>The Ward</td>
+      <td>2010.0</td>
+      <td>2011-04-01</td>
+      <td>Horror, Mystery, Thriller</td>
+      <td>89</td>
+      <td>USA</td>
+      <td>English</td>
+      <td>10000000.0</td>
+      <td>5343820.0</td>
+      <td>NaN</td>
+      <td>5.6</td>
+      <td>39789</td>
+      <td>John Carpenter</td>
+      <td>Michael Rasmussen, Shawn Rasmussen</td>
+      <td>FilmNation Entertainment</td>
+      <td>Amber Heard, Mamie Gummer, Danielle Panabaker,...</td>
+      <td>An institutionalized young woman becomes terro...</td>
+      <td>190.0</td>
+      <td>263.0</td>
+    </tr>
+    <tr>
+      <th>28488</th>
+      <td>tt0038549</td>
+      <td>A Game of Death</td>
+      <td>1945.0</td>
+      <td>1946-06-07</td>
+      <td>Adventure</td>
+      <td>72</td>
+      <td>USA</td>
+      <td>English</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.8</td>
+      <td>302</td>
+      <td>Robert Wise</td>
+      <td>Richard Connell, Norman Houston</td>
+      <td>RKO Radio Pictures</td>
+      <td>John Loder, Audrey Long, Edgar Barrier, Russel...</td>
+      <td>A remake of Richard Connell's famous short sto...</td>
+      <td>11.0</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>28489</th>
+      <td>tt0283026</td>
+      <td>Swimfan</td>
+      <td>2002.0</td>
+      <td>2003-05-30</td>
+      <td>Drama, Thriller</td>
+      <td>85</td>
+      <td>USA</td>
+      <td>English</td>
+      <td>10000000.0</td>
+      <td>34411240.0</td>
+      <td>28564995.0</td>
+      <td>5.1</td>
+      <td>18771</td>
+      <td>John Polson</td>
+      <td>Charles F. Bohl, Phillip Schneider</td>
+      <td>Twentieth Century Fox</td>
+      <td>Jesse Bradford, Erika Christensen, Shiri Apple...</td>
+      <td>A high school senior with a promising swimming...</td>
+      <td>216.0</td>
+      <td>88.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>28490 rows × 20 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df.describe()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># O python joga fora todos os NA's</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
 
-plotly::ggplotly(plot)</code></pre>
-</section>
-<section id="tabela-descritiva-com-pacote-summarytools" class="level3">
-<h3 class="anchored" data-anchor-id="tabela-descritiva-com-pacote-summarytools">Tabela descritiva com pacote <code>summarytools</code></h3>
-<pre class="{r}"><code>library(summarytools) 
+<div>
 
-descr(iris) |&gt; 
-  round(digits = 3) |&gt; 
-  knitr::kable()
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>ano</th>
+      <th>duracao</th>
+      <th>orcamento</th>
+      <th>receita</th>
+      <th>receita_eua</th>
+      <th>nota_imdb</th>
+      <th>num_avaliacoes</th>
+      <th>num_criticas_publico</th>
+      <th>num_criticas_critica</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>28489.000000</td>
+      <td>28490.000000</td>
+      <td>1.047000e+04</td>
+      <td>7.698000e+03</td>
+      <td>7.556000e+03</td>
+      <td>28490.000000</td>
+      <td>2.849000e+04</td>
+      <td>28186.000000</td>
+      <td>26618.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>1985.658605</td>
+      <td>93.054826</td>
+      <td>1.213561e+07</td>
+      <td>4.537556e+07</td>
+      <td>2.518781e+07</td>
+      <td>5.556279</td>
+      <td>1.451079e+04</td>
+      <td>62.611509</td>
+      <td>32.225900</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>28.972694</td>
+      <td>18.578874</td>
+      <td>2.678579e+07</td>
+      <td>1.319881e+08</td>
+      <td>5.516075e+07</td>
+      <td>1.284463</td>
+      <td>6.855500e+04</td>
+      <td>202.058141</td>
+      <td>63.233244</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1894.000000</td>
+      <td>42.000000</td>
+      <td>0.000000e+00</td>
+      <td>1.600000e+01</td>
+      <td>3.000000e+01</td>
+      <td>1.100000</td>
+      <td>9.900000e+01</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>1959.000000</td>
+      <td>84.000000</td>
+      <td>4.500000e+05</td>
+      <td>1.194390e+05</td>
+      <td>1.945568e+05</td>
+      <td>4.800000</td>
+      <td>2.300000e+02</td>
+      <td>8.000000</td>
+      <td>4.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>1996.000000</td>
+      <td>91.000000</td>
+      <td>2.000000e+06</td>
+      <td>4.250656e+06</td>
+      <td>4.599253e+06</td>
+      <td>5.800000</td>
+      <td>6.060000e+02</td>
+      <td>17.000000</td>
+      <td>10.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>2011.000000</td>
+      <td>100.000000</td>
+      <td>1.150000e+07</td>
+      <td>3.180537e+07</td>
+      <td>2.641456e+07</td>
+      <td>6.500000</td>
+      <td>2.893750e+03</td>
+      <td>43.000000</td>
+      <td>30.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>2020.000000</td>
+      <td>398.000000</td>
+      <td>3.560000e+08</td>
+      <td>2.797801e+09</td>
+      <td>9.366622e+08</td>
+      <td>9.700000</td>
+      <td>2.278845e+06</td>
+      <td>8869.000000</td>
+      <td>909.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df.info()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.core.frame.DataFrame'&gt;
+RangeIndex: 28490 entries, 0 to 28489
+Data columns (total 20 columns):
+ #   Column                Non-Null Count  Dtype  
+---  ------                --------------  -----  
+ 0   id_filme              28490 non-null  object 
+ 1   titulo                28490 non-null  object 
+ 2   ano                   28489 non-null  float64
+ 3   data_lancamento       28490 non-null  object 
+ 4   generos               28490 non-null  object 
+ 5   duracao               28490 non-null  int64  
+ 6   pais                  28490 non-null  object 
+ 7   idioma                28146 non-null  object 
+ 8   orcamento             10470 non-null  float64
+ 9   receita               7698 non-null   float64
+ 10  receita_eua           7556 non-null   float64
+ 11  nota_imdb             28490 non-null  float64
+ 12  num_avaliacoes        28490 non-null  int64  
+ 13  direcao               28457 non-null  object 
+ 14  roteiro               28289 non-null  object 
+ 15  producao              27332 non-null  object 
+ 16  elenco                28464 non-null  object 
+ 17  descricao             28418 non-null  object 
+ 18  num_criticas_publico  28186 non-null  float64
+ 19  num_criticas_critica  26618 non-null  float64
+dtypes: float64(7), int64(2), object(11)
+memory usage: 4.3+ MB</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df.<span class="bu">sum</span>()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df.receita.<span class="bu">sum</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>349301083041.0</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span>(pandas.read_csv)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Help on function read_csv in module pandas.io.parsers.readers:
+
+read_csv(filepath_or_buffer: 'FilePath | ReadCsvBuffer[bytes] | ReadCsvBuffer[str]', sep=&lt;no_default&gt;, delimiter=None, header='infer', names=&lt;no_default&gt;, index_col=None, usecols=None, squeeze=None, prefix=&lt;no_default&gt;, mangle_dupe_cols=True, dtype: 'DtypeArg | None' = None, engine: 'CSVEngine | None' = None, converters=None, true_values=None, false_values=None, skipinitialspace=False, skiprows=None, skipfooter=0, nrows=None, na_values=None, keep_default_na=True, na_filter=True, verbose=False, skip_blank_lines=True, parse_dates=None, infer_datetime_format=False, keep_date_col=False, date_parser=None, dayfirst=False, cache_dates=True, iterator=False, chunksize=None, compression: 'CompressionOptions' = 'infer', thousands=None, decimal: 'str' = '.', lineterminator=None, quotechar='"', quoting=0, doublequote=True, escapechar=None, comment=None, encoding=None, encoding_errors: 'str | None' = 'strict', dialect=None, error_bad_lines=None, warn_bad_lines=None, on_bad_lines=None, delim_whitespace=False, low_memory=True, memory_map=False, float_precision=None, storage_options: 'StorageOptions' = None)
+    Read a comma-separated values (csv) file into DataFrame.
+    
+    Also supports optionally iterating or breaking of the file
+    into chunks.
+    
+    Additional help can be found in the online docs for
+    `IO Tools &lt;https://pandas.pydata.org/pandas-docs/stable/user_guide/io.html&gt;`_.
+    
+    Parameters
+    ----------
+    filepath_or_buffer : str, path object or file-like object
+        Any valid string path is acceptable. The string could be a URL. Valid
+        URL schemes include http, ftp, s3, gs, and file. For file URLs, a host is
+        expected. A local file could be: file://localhost/path/to/table.csv.
+    
+        If you want to pass in a path object, pandas accepts any ``os.PathLike``.
+    
+        By file-like object, we refer to objects with a ``read()`` method, such as
+        a file handle (e.g. via builtin ``open`` function) or ``StringIO``.
+    sep : str, default ','
+        Delimiter to use. If sep is None, the C engine cannot automatically detect
+        the separator, but the Python parsing engine can, meaning the latter will
+        be used and automatically detect the separator by Python's builtin sniffer
+        tool, ``csv.Sniffer``. In addition, separators longer than 1 character and
+        different from ``'\s+'`` will be interpreted as regular expressions and
+        will also force the use of the Python parsing engine. Note that regex
+        delimiters are prone to ignoring quoted data. Regex example: ``'\r\t'``.
+    delimiter : str, default ``None``
+        Alias for sep.
+    header : int, list of int, None, default 'infer'
+        Row number(s) to use as the column names, and the start of the
+        data.  Default behavior is to infer the column names: if no names
+        are passed the behavior is identical to ``header=0`` and column
+        names are inferred from the first line of the file, if column
+        names are passed explicitly then the behavior is identical to
+        ``header=None``. Explicitly pass ``header=0`` to be able to
+        replace existing names. The header can be a list of integers that
+        specify row locations for a multi-index on the columns
+        e.g. [0,1,3]. Intervening rows that are not specified will be
+        skipped (e.g. 2 in this example is skipped). Note that this
+        parameter ignores commented lines and empty lines if
+        ``skip_blank_lines=True``, so ``header=0`` denotes the first line of
+        data rather than the first line of the file.
+    names : array-like, optional
+        List of column names to use. If the file contains a header row,
+        then you should explicitly pass ``header=0`` to override the column names.
+        Duplicates in this list are not allowed.
+    index_col : int, str, sequence of int / str, or False, optional, default ``None``
+      Column(s) to use as the row labels of the ``DataFrame``, either given as
+      string name or column index. If a sequence of int / str is given, a
+      MultiIndex is used.
+    
+      Note: ``index_col=False`` can be used to force pandas to *not* use the first
+      column as the index, e.g. when you have a malformed file with delimiters at
+      the end of each line.
+    usecols : list-like or callable, optional
+        Return a subset of the columns. If list-like, all elements must either
+        be positional (i.e. integer indices into the document columns) or strings
+        that correspond to column names provided either by the user in `names` or
+        inferred from the document header row(s). If ``names`` are given, the document
+        header row(s) are not taken into account. For example, a valid list-like
+        `usecols` parameter would be ``[0, 1, 2]`` or ``['foo', 'bar', 'baz']``.
+        Element order is ignored, so ``usecols=[0, 1]`` is the same as ``[1, 0]``.
+        To instantiate a DataFrame from ``data`` with element order preserved use
+        ``pd.read_csv(data, usecols=['foo', 'bar'])[['foo', 'bar']]`` for columns
+        in ``['foo', 'bar']`` order or
+        ``pd.read_csv(data, usecols=['foo', 'bar'])[['bar', 'foo']]``
+        for ``['bar', 'foo']`` order.
+    
+        If callable, the callable function will be evaluated against the column
+        names, returning names where the callable function evaluates to True. An
+        example of a valid callable argument would be ``lambda x: x.upper() in
+        ['AAA', 'BBB', 'DDD']``. Using this parameter results in much faster
+        parsing time and lower memory usage.
+    squeeze : bool, default False
+        If the parsed data only contains one column then return a Series.
+    
+        .. deprecated:: 1.4.0
+            Append ``.squeeze("columns")`` to the call to ``read_csv`` to squeeze
+            the data.
+    prefix : str, optional
+        Prefix to add to column numbers when no header, e.g. 'X' for X0, X1, ...
+    
+        .. deprecated:: 1.4.0
+           Use a list comprehension on the DataFrame's columns after calling ``read_csv``.
+    mangle_dupe_cols : bool, default True
+        Duplicate columns will be specified as 'X', 'X.1', ...'X.N', rather than
+        'X'...'X'. Passing in False will cause data to be overwritten if there
+        are duplicate names in the columns.
+    dtype : Type name or dict of column -&gt; type, optional
+        Data type for data or columns. E.g. {'a': np.float64, 'b': np.int32,
+        'c': 'Int64'}
+        Use `str` or `object` together with suitable `na_values` settings
+        to preserve and not interpret dtype.
+        If converters are specified, they will be applied INSTEAD
+        of dtype conversion.
+    engine : {'c', 'python', 'pyarrow'}, optional
+        Parser engine to use. The C and pyarrow engines are faster, while the python engine
+        is currently more feature-complete. Multithreading is currently only supported by
+        the pyarrow engine.
+    
+        .. versionadded:: 1.4.0
+    
+            The "pyarrow" engine was added as an *experimental* engine, and some features
+            are unsupported, or may not work correctly, with this engine.
+    converters : dict, optional
+        Dict of functions for converting values in certain columns. Keys can either
+        be integers or column labels.
+    true_values : list, optional
+        Values to consider as True.
+    false_values : list, optional
+        Values to consider as False.
+    skipinitialspace : bool, default False
+        Skip spaces after delimiter.
+    skiprows : list-like, int or callable, optional
+        Line numbers to skip (0-indexed) or number of lines to skip (int)
+        at the start of the file.
+    
+        If callable, the callable function will be evaluated against the row
+        indices, returning True if the row should be skipped and False otherwise.
+        An example of a valid callable argument would be ``lambda x: x in [0, 2]``.
+    skipfooter : int, default 0
+        Number of lines at bottom of file to skip (Unsupported with engine='c').
+    nrows : int, optional
+        Number of rows of file to read. Useful for reading pieces of large files.
+    na_values : scalar, str, list-like, or dict, optional
+        Additional strings to recognize as NA/NaN. If dict passed, specific
+        per-column NA values.  By default the following values are interpreted as
+        NaN: '', '#N/A', '#N/A N/A', '#NA', '-1.#IND', '-1.#QNAN', '-NaN', '-nan',
+        '1.#IND', '1.#QNAN', '&lt;NA&gt;', 'N/A', 'NA', 'NULL', 'NaN', 'n/a',
+        'nan', 'null'.
+    keep_default_na : bool, default True
+        Whether or not to include the default NaN values when parsing the data.
+        Depending on whether `na_values` is passed in, the behavior is as follows:
+    
+        * If `keep_default_na` is True, and `na_values` are specified, `na_values`
+          is appended to the default NaN values used for parsing.
+        * If `keep_default_na` is True, and `na_values` are not specified, only
+          the default NaN values are used for parsing.
+        * If `keep_default_na` is False, and `na_values` are specified, only
+          the NaN values specified `na_values` are used for parsing.
+        * If `keep_default_na` is False, and `na_values` are not specified, no
+          strings will be parsed as NaN.
+    
+        Note that if `na_filter` is passed in as False, the `keep_default_na` and
+        `na_values` parameters will be ignored.
+    na_filter : bool, default True
+        Detect missing value markers (empty strings and the value of na_values). In
+        data without any NAs, passing na_filter=False can improve the performance
+        of reading a large file.
+    verbose : bool, default False
+        Indicate number of NA values placed in non-numeric columns.
+    skip_blank_lines : bool, default True
+        If True, skip over blank lines rather than interpreting as NaN values.
+    parse_dates : bool or list of int or names or list of lists or dict, default False
+        The behavior is as follows:
+    
+        * boolean. If True -&gt; try parsing the index.
+        * list of int or names. e.g. If [1, 2, 3] -&gt; try parsing columns 1, 2, 3
+          each as a separate date column.
+        * list of lists. e.g.  If [[1, 3]] -&gt; combine columns 1 and 3 and parse as
+          a single date column.
+        * dict, e.g. {'foo' : [1, 3]} -&gt; parse columns 1, 3 as date and call
+          result 'foo'
+    
+        If a column or index cannot be represented as an array of datetimes,
+        say because of an unparsable value or a mixture of timezones, the column
+        or index will be returned unaltered as an object data type. For
+        non-standard datetime parsing, use ``pd.to_datetime`` after
+        ``pd.read_csv``. To parse an index or column with a mixture of timezones,
+        specify ``date_parser`` to be a partially-applied
+        :func:`pandas.to_datetime` with ``utc=True``. See
+        :ref:`io.csv.mixed_timezones` for more.
+    
+        Note: A fast-path exists for iso8601-formatted dates.
+    infer_datetime_format : bool, default False
+        If True and `parse_dates` is enabled, pandas will attempt to infer the
+        format of the datetime strings in the columns, and if it can be inferred,
+        switch to a faster method of parsing them. In some cases this can increase
+        the parsing speed by 5-10x.
+    keep_date_col : bool, default False
+        If True and `parse_dates` specifies combining multiple columns then
+        keep the original columns.
+    date_parser : function, optional
+        Function to use for converting a sequence of string columns to an array of
+        datetime instances. The default uses ``dateutil.parser.parser`` to do the
+        conversion. Pandas will try to call `date_parser` in three different ways,
+        advancing to the next if an exception occurs: 1) Pass one or more arrays
+        (as defined by `parse_dates`) as arguments; 2) concatenate (row-wise) the
+        string values from the columns defined by `parse_dates` into a single array
+        and pass that; and 3) call `date_parser` once for each row using one or
+        more strings (corresponding to the columns defined by `parse_dates`) as
+        arguments.
+    dayfirst : bool, default False
+        DD/MM format dates, international and European format.
+    cache_dates : bool, default True
+        If True, use a cache of unique, converted dates to apply the datetime
+        conversion. May produce significant speed-up when parsing duplicate
+        date strings, especially ones with timezone offsets.
+    
+        .. versionadded:: 0.25.0
+    iterator : bool, default False
+        Return TextFileReader object for iteration or getting chunks with
+        ``get_chunk()``.
+    
+        .. versionchanged:: 1.2
+    
+           ``TextFileReader`` is a context manager.
+    chunksize : int, optional
+        Return TextFileReader object for iteration.
+        See the `IO Tools docs
+        &lt;https://pandas.pydata.org/pandas-docs/stable/io.html#io-chunking&gt;`_
+        for more information on ``iterator`` and ``chunksize``.
+    
+        .. versionchanged:: 1.2
+    
+           ``TextFileReader`` is a context manager.
+    compression : str or dict, default 'infer'
+        For on-the-fly decompression of on-disk data. If 'infer' and '%s' is
+        path-like, then detect compression from the following extensions: '.gz',
+        '.bz2', '.zip', '.xz', or '.zst' (otherwise no compression). If using
+        'zip', the ZIP file must contain only one data file to be read in. Set to
+        ``None`` for no decompression. Can also be a dict with key ``'method'`` set
+        to one of {``'zip'``, ``'gzip'``, ``'bz2'``, ``'zstd'``} and other
+        key-value pairs are forwarded to ``zipfile.ZipFile``, ``gzip.GzipFile``,
+        ``bz2.BZ2File``, or ``zstandard.ZstdDecompressor``, respectively. As an
+        example, the following could be passed for Zstandard decompression using a
+        custom compression dictionary:
+        ``compression={'method': 'zstd', 'dict_data': my_compression_dict}``.
+    
+        .. versionchanged:: 1.4.0 Zstandard support.
+    
+    thousands : str, optional
+        Thousands separator.
+    decimal : str, default '.'
+        Character to recognize as decimal point (e.g. use ',' for European data).
+    lineterminator : str (length 1), optional
+        Character to break file into lines. Only valid with C parser.
+    quotechar : str (length 1), optional
+        The character used to denote the start and end of a quoted item. Quoted
+        items can include the delimiter and it will be ignored.
+    quoting : int or csv.QUOTE_* instance, default 0
+        Control field quoting behavior per ``csv.QUOTE_*`` constants. Use one of
+        QUOTE_MINIMAL (0), QUOTE_ALL (1), QUOTE_NONNUMERIC (2) or QUOTE_NONE (3).
+    doublequote : bool, default ``True``
+       When quotechar is specified and quoting is not ``QUOTE_NONE``, indicate
+       whether or not to interpret two consecutive quotechar elements INSIDE a
+       field as a single ``quotechar`` element.
+    escapechar : str (length 1), optional
+        One-character string used to escape other characters.
+    comment : str, optional
+        Indicates remainder of line should not be parsed. If found at the beginning
+        of a line, the line will be ignored altogether. This parameter must be a
+        single character. Like empty lines (as long as ``skip_blank_lines=True``),
+        fully commented lines are ignored by the parameter `header` but not by
+        `skiprows`. For example, if ``comment='#'``, parsing
+        ``#empty\na,b,c\n1,2,3`` with ``header=0`` will result in 'a,b,c' being
+        treated as the header.
+    encoding : str, optional
+        Encoding to use for UTF when reading/writing (ex. 'utf-8'). `List of Python
+        standard encodings
+        &lt;https://docs.python.org/3/library/codecs.html#standard-encodings&gt;`_ .
+    
+        .. versionchanged:: 1.2
+    
+           When ``encoding`` is ``None``, ``errors="replace"`` is passed to
+           ``open()``. Otherwise, ``errors="strict"`` is passed to ``open()``.
+           This behavior was previously only the case for ``engine="python"``.
+    
+        .. versionchanged:: 1.3.0
+    
+           ``encoding_errors`` is a new argument. ``encoding`` has no longer an
+           influence on how encoding errors are handled.
+    
+    encoding_errors : str, optional, default "strict"
+        How encoding errors are treated. `List of possible values
+        &lt;https://docs.python.org/3/library/codecs.html#error-handlers&gt;`_ .
+    
+        .. versionadded:: 1.3.0
+    
+    dialect : str or csv.Dialect, optional
+        If provided, this parameter will override values (default or not) for the
+        following parameters: `delimiter`, `doublequote`, `escapechar`,
+        `skipinitialspace`, `quotechar`, and `quoting`. If it is necessary to
+        override values, a ParserWarning will be issued. See csv.Dialect
+        documentation for more details.
+    error_bad_lines : bool, optional, default ``None``
+        Lines with too many fields (e.g. a csv line with too many commas) will by
+        default cause an exception to be raised, and no DataFrame will be returned.
+        If False, then these "bad lines" will be dropped from the DataFrame that is
+        returned.
+    
+        .. deprecated:: 1.3.0
+           The ``on_bad_lines`` parameter should be used instead to specify behavior upon
+           encountering a bad line instead.
+    warn_bad_lines : bool, optional, default ``None``
+        If error_bad_lines is False, and warn_bad_lines is True, a warning for each
+        "bad line" will be output.
+    
+        .. deprecated:: 1.3.0
+           The ``on_bad_lines`` parameter should be used instead to specify behavior upon
+           encountering a bad line instead.
+    on_bad_lines : {'error', 'warn', 'skip'} or callable, default 'error'
+        Specifies what to do upon encountering a bad line (a line with too many fields).
+        Allowed values are :
+    
+            - 'error', raise an Exception when a bad line is encountered.
+            - 'warn', raise a warning when a bad line is encountered and skip that line.
+            - 'skip', skip bad lines without raising or warning when they are encountered.
+    
+        .. versionadded:: 1.3.0
+    
+        .. versionadded:: 1.4.0
+    
+            - callable, function with signature
+              ``(bad_line: list[str]) -&gt; list[str] | None`` that will process a single
+              bad line. ``bad_line`` is a list of strings split by the ``sep``.
+              If the function returns ``None``, the bad line will be ignored.
+              If the function returns a new list of strings with more elements than
+              expected, a ``ParserWarning`` will be emitted while dropping extra elements.
+              Only supported when ``engine="python"``
+    
+    delim_whitespace : bool, default False
+        Specifies whether or not whitespace (e.g. ``' '`` or ``'    '``) will be
+        used as the sep. Equivalent to setting ``sep='\s+'``. If this option
+        is set to True, nothing should be passed in for the ``delimiter``
+        parameter.
+    low_memory : bool, default True
+        Internally process the file in chunks, resulting in lower memory use
+        while parsing, but possibly mixed type inference.  To ensure no mixed
+        types either set False, or specify the type with the `dtype` parameter.
+        Note that the entire file is read into a single DataFrame regardless,
+        use the `chunksize` or `iterator` parameter to return the data in chunks.
+        (Only valid with C parser).
+    memory_map : bool, default False
+        If a filepath is provided for `filepath_or_buffer`, map the file object
+        directly onto memory and access the data directly from there. Using this
+        option can improve performance because there is no longer any I/O overhead.
+    float_precision : str, optional
+        Specifies which converter the C engine should use for floating-point
+        values. The options are ``None`` or 'high' for the ordinary converter,
+        'legacy' for the original lower precision pandas converter, and
+        'round_trip' for the round-trip converter.
+    
+        .. versionchanged:: 1.2
+    
+    storage_options : dict, optional
+        Extra options that make sense for a particular storage connection, e.g.
+        host, port, username, password, etc. For HTTP(S) URLs the key-value pairs
+        are forwarded to ``urllib`` as header options. For other URLs (e.g.
+        starting with "s3://", and "gcs://") the key-value pairs are forwarded to
+        ``fsspec``. Please see ``fsspec`` and ``urllib`` for more details.
+    
+        .. versionadded:: 1.2
+    
+    Returns
+    -------
+    DataFrame or TextParser
+        A comma-separated values (csv) file is returned as two-dimensional
+        data structure with labeled axes.
+    
+    See Also
+    --------
+    DataFrame.to_csv : Write DataFrame to a comma-separated values (csv) file.
+    read_csv : Read a comma-separated values (csv) file into DataFrame.
+    read_fwf : Read a table of fixed-width formatted lines into DataFrame.
+    
+    Examples
+    --------
+    &gt;&gt;&gt; pd.read_csv('data.csv')  # doctest: +SKIP
 </code></pre>
+</div>
+</div>
+</section>
+<section id="principais-verbos" class="level3">
+<h3 class="anchored" data-anchor-id="principais-verbos">Principais verbos</h3>
 <ul>
-<li>Fonte: <span class="citation" data-cites="summarytools">@summarytools</span>.</li>
+<li>Ordenar linhas</li>
+<li>Selecionar linhas/colunas</li>
+<li>Criar colunas</li>
+<li>Sumarizar</li>
+<li>Pivotagem</li>
 </ul>
 </section>
-<section id="vídeos-no-relatório-quarto" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="vídeos-no-relatório-quarto">Vídeos no relatório Quarto</h2>
-<p>Para inserir vídeos, após feita as instalações necessárias, basta inserir o link do Youtube na sintaxe a seguir:</p>
-<div class="sourceCode" id="cb11" data-shortcodes="false"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>{{&lt; video https://youtu.be/tE88RxsUOuc &gt;}}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>O resultado será:</p>
-<div class="quarto-video ratio ratio-16x9"><iframe src="https://www.youtube.com/embed/tE88RxsUOuc" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
-<p>Para alterar o tamanho do vídeo, basta inserir <code>width="xx"</code> (largura) <code>height="xx"</code> (altura), como no exemplo:</p>
-<div class="sourceCode" id="cb12" data-shortcodes="false"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>{{&lt; video https://youtu.be/tE88RxsUOuc width="225" height="170" &gt;}}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Para mais detalhes sobre a utilização de vídeos, clique <a href="https://quarto.org/docs/authoring/videos.html">aqui</a>.</p>
-
-<div class="no-row-height column-margin column-container"><div class="">
-<p>O resultado com as dimensões <code>width="225" e height="170"</code> será assim:</p>
-<div class="quarto-video"><iframe src="https://www.youtube.com/embed/tE88RxsUOuc" width="225" height="170" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
-</div></div></section>
-<section id="anotações-em-códigos" class="level2">
-<h2 class="anchored" data-anchor-id="anotações-em-códigos">Anotações em códigos</h2>
-<div class="callout-warning callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+</section>
+<section id="numpy" class="level2">
+<h2 class="anchored" data-anchor-id="numpy">Numpy</h2>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="callout-caption-container flex-fill">
-Necessário instalar Quarto v1.3
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>num_array1 <span class="op">=</span> numpy.array([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>])</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>num_array2 <span class="op">=</span> numpy.array([<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>])</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(num_array1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>numpy.ndarray</code></pre>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>O <code>Code Annotation</code> é um recurso do Quarto v1.3. Se você quiser usar esse recurso, faça o download e instale o Quarto v1.3 antes de continuar.</p>
-<p>Instale a versão de pré-lançamento do Quarto <a href="https://quarto.org/docs/download/prerelease.html">aqui</a>. Vale ressaltar que o pré-lançamento destina-se a fins de <em>teste</em>.</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>num_array1 <span class="op">+</span> num_array2</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>num_array1<span class="op">/</span>num_array2</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>num_array1<span class="op">**</span>num_array2</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>num_array1<span class="op">-</span>num_array2</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>array([-4, -4, -4, -4])</code></pre>
 </div>
 </div>
-<pre class="{r}"><code>#| warning: false
-#| message: false
-
-library(dados)
-library(reactable)
-library(dplyr)
-
-dados_gapminder |&gt;                                  # &lt;1&gt; 
-  select(continente, pais, ano, pib_per_capita) |&gt;  # &lt;2&gt; 
-  reactable(
-    groupBy = "continente",                         # &lt;3&gt;
-    searchable = TRUE,                              # &lt;4&gt;
-    outlined = TRUE,                                # &lt;5&gt;
-    columns = list(ano = colDef(sortable = TRUE)))   # &lt;6&gt;</code></pre>
-<ol type="1">
-<li>Base do pacote {dados}</li>
-<li>Selecionando algumas colunas</li>
-<li>Agrupando pela coluna ‘continente’</li>
-<li>Inserindo uma busca na tabela</li>
-<li>Linhas na tabela</li>
-<li>Ordem crescente na coluna ‘ano’</li>
-</ol>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>num_array1.mean()</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>num_array1.<span class="bu">min</span>()</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>num_array1.std()</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>num_array1.<span class="bu">max</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>4</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>numpy.log10(num_array1)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>array([0.        , 0.30103   , 0.47712125, 0.60205999])</code></pre>
+</div>
+</div>
+<p>Numpy é uma biblioteca que serve para você fazer contas com vetores, métodos matemáticos, enquanto o Pandas é uma biblioteca de manipulação de dados, então ela define o DataFrame e um milhão de métodos para mexer no DataFrame, tipo o statsModels é a biblioteca de estatística do Python.</p>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>num_array1.astype(<span class="st">"str"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>num_array1.astype(<span class="st">"int"</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>array([1, 2, 3, 4])</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>num_array1.dtype</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>dtype('int32')</code></pre>
+</div>
+</div>
 <!-- -->
 
 </section>
@@ -617,200 +1388,129 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Código fonte</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb14" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Meu relatório em Quarto" # Título do relatório</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "**Minicurso - Introdução ao Quarto**"</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Ariane Hayana" # Autor(a)</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span><span class="co"> python3</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="an">lang:</span><span class="co"> pt # Linguagem em português</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "`r format(Sys.Date())`" # Data do relatório</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="an">date-format:</span><span class="co"> short # Formato de data curto: dd/MM/yyyy </span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="an">toc:</span><span class="co"> true # Adiciona um índice no relatório</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co">    html: </span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">      #css: ["custom.css"] # Customização com css</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">      code-fold: false # code-fold: true para "ocultar" o bloco de códigos</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="co">      code-tools: true  #code-tools: true para ativar ferramentas de interação com os códigos</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co">  #number-sections: true # Número de seções/subseções</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="co">      theme: </span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co">        light: cosmo</span></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">        dark: superhero # Sugestão: superhero/vapor Mudar o tema do relatório aqui</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="an">title-block-banner:</span><span class="co"> "#874a9c" # Pode ser 'true', uma cor ou imagem</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="an">code-annotations:</span><span class="co"> hover # Para anotações em códigos</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co">#reference-location: margin</span></span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co">#citation-location: margin</span></span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="co">#bibliography: references.bib</span></span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="an">params:</span></span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="co">  dataset: "iris" # Parâmetros aplicável em todo o documento</span></span>
-<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="fu"># Conjunto de dados: Iris</span></span>
-<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>O conjunto de dados consiste em 50 amostras de cada uma das três espécies de *Iris* ( *Iris setosa*, *Iris virginica* e *Iris versicolor*). Quatro variáveis foram medidas em cada amostra: o comprimento e a largura das sépalas e pétalas, em centímetros.</span>
-<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>Fonte: <span class="co">[</span><span class="ot">Wikipédia</span><span class="co">](https://pt.wikipedia.org/wiki/Conjunto_de_dados_flor_Iris)</span></span>
-<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>Os dados podem ser consultados na guia *Tabela*, bem como as imagens das flores:</span>
-<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>::: panel-tabset</span>
-<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## Tabela</span></span>
-<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">|&gt;</span></span>
-<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>  reactable<span class="sc">::</span><span class="fu">reactable</span>(<span class="at">groupBy =</span> <span class="st">"Species"</span>, <span class="co"># Agrupando pela coluna 'Species'</span></span>
-<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">searchable =</span> <span class="cn">TRUE</span>, <span class="co"># Inserindo uma busca na tabela</span></span>
-<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">outlined =</span> <span class="cn">TRUE</span>) <span class="co"># Linhas na tabela</span></span>
-<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">+</span><span class="dv">1</span></span>
-<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a><span class="fu">## Setosa</span></span>
-<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a><span class="in">``` md</span></span>
-<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a><span class="al">![Iris setosa](img/setosa.png)</span>{fig-align="center" width="300"}</span>
-<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a><span class="al">![Iris setosa](img/setosa.png)</span>{fig-align="center" width="300"}</span>
-<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a><span class="fu">## Versicolor</span></span>
-<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a><span class="in">``` md</span></span>
-<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a><span class="al">![Iris versicolor](img/versicolor.png)</span>{fig-align="center" width="304"}</span>
-<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a><span class="al">![Iris versicolor](img/versicolor.png)</span>{fig-align="center" width="304"}</span>
-<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a><span class="fu">## Virginica</span></span>
-<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a><span class="in">``` md</span></span>
-<span id="cb14-76"><a href="#cb14-76" aria-hidden="true" tabindex="-1"></a><span class="al">![Iris virginica](img/virginica.png)</span>{fig-align="center" width="300"}</span>
-<span id="cb14-77"><a href="#cb14-77" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-78"><a href="#cb14-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-79"><a href="#cb14-79" aria-hidden="true" tabindex="-1"></a><span class="al">![Iris virginica](img/virginica.png)</span>{fig-align="center" width="300"}</span>
-<span id="cb14-80"><a href="#cb14-80" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb14-81"><a href="#cb14-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-82"><a href="#cb14-82" aria-hidden="true" tabindex="-1"></a><span class="fu">### Inserindo código do R em linha de texto</span></span>
-<span id="cb14-83"><a href="#cb14-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-84"><a href="#cb14-84" aria-hidden="true" tabindex="-1"></a>Você pode automatizar a apresentação de seus resultados no texto:</span>
-<span id="cb14-85"><a href="#cb14-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-86"><a href="#cb14-86" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; O *dataset* `r params$dataset` tem `r ncol(iris)` colunas e `r nrow(iris)` linhas. As variáveis do *dataset* são *`r names(iris)`*.</span></span>
-<span id="cb14-87"><a href="#cb14-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-88"><a href="#cb14-88" aria-hidden="true" tabindex="-1"></a><span class="fu">### Visualizações</span></span>
-<span id="cb14-89"><a href="#cb14-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-90"><a href="#cb14-90" aria-hidden="true" tabindex="-1"></a>Podemos gerar uma matriz de gráficos de dispersão interativa usando a biblioteca <span class="in">`JavaScript D3`</span> do pacote <span class="in">`pairsD3`</span> <span class="co">[</span><span class="ot">@pairsD3</span><span class="co">]</span>.</span>
-<span id="cb14-91"><a href="#cb14-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-94"><a href="#cb14-94" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-95"><a href="#cb14-95" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Matriz interativa - Iris"</span></span>
-<span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb14-97"><a href="#cb14-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-98"><a href="#cb14-98" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pairsD3)</span>
-<span id="cb14-99"><a href="#cb14-99" aria-hidden="true" tabindex="-1"></a><span class="fu">pairsD3</span>(iris[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">group=</span>iris[,<span class="dv">5</span>])</span>
-<span id="cb14-100"><a href="#cb14-100" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-101"><a href="#cb14-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-104"><a href="#cb14-104" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-105"><a href="#cb14-105" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 5</span></span>
-<span id="cb14-106"><a href="#cb14-106" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3</span></span>
-<span id="cb14-107"><a href="#cb14-107" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb14-108"><a href="#cb14-108" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-align: "center"</span></span>
-<span id="cb14-109"><a href="#cb14-109" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Boxplot estático."</span></span>
-<span id="cb14-110"><a href="#cb14-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-111"><a href="#cb14-111" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb14-112"><a href="#cb14-112" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(iris, </span>
-<span id="cb14-113"><a href="#cb14-113" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> Species,</span>
-<span id="cb14-114"><a href="#cb14-114" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span>  Sepal.Length)) <span class="sc">+</span> </span>
-<span id="cb14-115"><a href="#cb14-115" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="fu">aes</span>(<span class="at">fill =</span> Species)) <span class="sc">+</span></span>
-<span id="cb14-116"><a href="#cb14-116" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Elaborado por: Ariane Hayana"</span>) <span class="sc">+</span></span>
-<span id="cb14-117"><a href="#cb14-117" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Espécies"</span>) <span class="sc">+</span> </span>
-<span id="cb14-118"><a href="#cb14-118" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Sepal Length"</span>) <span class="sc">+</span> </span>
-<span id="cb14-119"><a href="#cb14-119" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_grey</span>();plot</span>
-<span id="cb14-120"><a href="#cb14-120" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-121"><a href="#cb14-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-124"><a href="#cb14-124" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-125"><a href="#cb14-125" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 5</span></span>
-<span id="cb14-126"><a href="#cb14-126" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3</span></span>
-<span id="cb14-127"><a href="#cb14-127" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb14-128"><a href="#cb14-128" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Boxplot dinâmico."</span></span>
-<span id="cb14-129"><a href="#cb14-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-130"><a href="#cb14-130" aria-hidden="true" tabindex="-1"></a>plotly<span class="sc">::</span><span class="fu">ggplotly</span>(plot)</span>
-<span id="cb14-131"><a href="#cb14-131" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-132"><a href="#cb14-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-133"><a href="#cb14-133" aria-hidden="true" tabindex="-1"></a><span class="fu">### Tabela descritiva com pacote `summarytools`</span></span>
-<span id="cb14-134"><a href="#cb14-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-137"><a href="#cb14-137" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-138"><a href="#cb14-138" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(summarytools) </span>
-<span id="cb14-139"><a href="#cb14-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-140"><a href="#cb14-140" aria-hidden="true" tabindex="-1"></a><span class="fu">descr</span>(iris) <span class="sc">|&gt;</span> </span>
-<span id="cb14-141"><a href="#cb14-141" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb14-142"><a href="#cb14-142" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span>
-<span id="cb14-143"><a href="#cb14-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-144"><a href="#cb14-144" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-145"><a href="#cb14-145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-146"><a href="#cb14-146" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Fonte: @summarytools.</span>
-<span id="cb14-147"><a href="#cb14-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-148"><a href="#cb14-148" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vídeos no relatório Quarto</span></span>
-<span id="cb14-149"><a href="#cb14-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-150"><a href="#cb14-150" aria-hidden="true" tabindex="-1"></a>Para inserir vídeos, após feita as instalações necessárias, basta inserir o link do Youtube na sintaxe a seguir:</span>
-<span id="cb14-151"><a href="#cb14-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-152"><a href="#cb14-152" aria-hidden="true" tabindex="-1"></a><span class="in">``` {.default shortcodes="false"}</span></span>
-<span id="cb14-153"><a href="#cb14-153" aria-hidden="true" tabindex="-1"></a><span class="in">{{&lt; video https://youtu.be/tE88RxsUOuc &gt;}}</span></span>
-<span id="cb14-154"><a href="#cb14-154" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-155"><a href="#cb14-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-156"><a href="#cb14-156" aria-hidden="true" tabindex="-1"></a>O resultado será:</span>
-<span id="cb14-157"><a href="#cb14-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-158"><a href="#cb14-158" aria-hidden="true" tabindex="-1"></a>{{&lt; video https://youtu.be/tE88RxsUOuc &gt;}}</span>
-<span id="cb14-159"><a href="#cb14-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-160"><a href="#cb14-160" aria-hidden="true" tabindex="-1"></a>Para alterar o tamanho do vídeo, basta inserir <span class="in">`width="xx"`</span> (largura) <span class="in">`height="xx"`</span> (altura), como no exemplo:</span>
-<span id="cb14-161"><a href="#cb14-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-162"><a href="#cb14-162" aria-hidden="true" tabindex="-1"></a><span class="in">``` {.default shortcodes="false"}</span></span>
-<span id="cb14-163"><a href="#cb14-163" aria-hidden="true" tabindex="-1"></a><span class="in">{{&lt; video https://youtu.be/tE88RxsUOuc width="225" height="170" &gt;}}</span></span>
-<span id="cb14-164"><a href="#cb14-164" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-165"><a href="#cb14-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-166"><a href="#cb14-166" aria-hidden="true" tabindex="-1"></a>Para mais detalhes sobre a utilização de vídeos, clique <span class="co">[</span><span class="ot">aqui</span><span class="co">](https://quarto.org/docs/authoring/videos.html)</span>.</span>
-<span id="cb14-167"><a href="#cb14-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-168"><a href="#cb14-168" aria-hidden="true" tabindex="-1"></a>::: column-margin</span>
-<span id="cb14-169"><a href="#cb14-169" aria-hidden="true" tabindex="-1"></a>O resultado com as dimensões <span class="in">`width="225" e height="170"`</span> será assim:</span>
-<span id="cb14-170"><a href="#cb14-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-171"><a href="#cb14-171" aria-hidden="true" tabindex="-1"></a>{{&lt; video https://youtu.be/tE88RxsUOuc width="225" height="170" &gt;}}</span>
-<span id="cb14-172"><a href="#cb14-172" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb14-173"><a href="#cb14-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-174"><a href="#cb14-174" aria-hidden="true" tabindex="-1"></a><span class="fu">## Anotações em códigos</span></span>
-<span id="cb14-175"><a href="#cb14-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-176"><a href="#cb14-176" aria-hidden="true" tabindex="-1"></a>::: callout-warning</span>
-<span id="cb14-177"><a href="#cb14-177" aria-hidden="true" tabindex="-1"></a><span class="fu"># Necessário instalar Quarto v1.3</span></span>
-<span id="cb14-178"><a href="#cb14-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-179"><a href="#cb14-179" aria-hidden="true" tabindex="-1"></a>O <span class="in">`Code Annotation`</span> é um recurso do Quarto v1.3. Se você quiser usar esse recurso, faça o download e instale o Quarto v1.3 antes de continuar.</span>
-<span id="cb14-180"><a href="#cb14-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-181"><a href="#cb14-181" aria-hidden="true" tabindex="-1"></a>Instale a versão de pré-lançamento do Quarto <span class="co">[</span><span class="ot">aqui</span><span class="co">](https://quarto.org/docs/download/prerelease.html)</span>. Vale ressaltar que o pré-lançamento destina-se a fins de *teste*.</span>
-<span id="cb14-182"><a href="#cb14-182" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb14-183"><a href="#cb14-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-186"><a href="#cb14-186" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb14-187"><a href="#cb14-187" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
-<span id="cb14-188"><a href="#cb14-188" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb14-189"><a href="#cb14-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-190"><a href="#cb14-190" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dados)</span>
-<span id="cb14-191"><a href="#cb14-191" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reactable)</span>
-<span id="cb14-192"><a href="#cb14-192" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb14-193"><a href="#cb14-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-194"><a href="#cb14-194" aria-hidden="true" tabindex="-1"></a>dados_gapminder <span class="sc">|&gt;</span>                                  <span class="co"># &lt;1&gt; </span></span>
-<span id="cb14-195"><a href="#cb14-195" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(continente, pais, ano, pib_per_capita) <span class="sc">|&gt;</span>  <span class="co"># &lt;2&gt; </span></span>
-<span id="cb14-196"><a href="#cb14-196" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reactable</span>(</span>
-<span id="cb14-197"><a href="#cb14-197" aria-hidden="true" tabindex="-1"></a>    <span class="at">groupBy =</span> <span class="st">"continente"</span>,                         <span class="co"># &lt;3&gt;</span></span>
-<span id="cb14-198"><a href="#cb14-198" aria-hidden="true" tabindex="-1"></a>    <span class="at">searchable =</span> <span class="cn">TRUE</span>,                              <span class="co"># &lt;4&gt;</span></span>
-<span id="cb14-199"><a href="#cb14-199" aria-hidden="true" tabindex="-1"></a>    <span class="at">outlined =</span> <span class="cn">TRUE</span>,                                <span class="co"># &lt;5&gt;</span></span>
-<span id="cb14-200"><a href="#cb14-200" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">list</span>(<span class="at">ano =</span> <span class="fu">colDef</span>(<span class="at">sortable =</span> <span class="cn">TRUE</span>)))   <span class="co"># &lt;6&gt;</span></span>
-<span id="cb14-201"><a href="#cb14-201" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb14-202"><a href="#cb14-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-203"><a href="#cb14-203" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Base do pacote {dados}</span>
-<span id="cb14-204"><a href="#cb14-204" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>Selecionando algumas colunas</span>
-<span id="cb14-205"><a href="#cb14-205" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Agrupando pela coluna 'continente'</span>
-<span id="cb14-206"><a href="#cb14-206" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Inserindo uma busca na tabela</span>
-<span id="cb14-207"><a href="#cb14-207" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>Linhas na tabela</span>
-<span id="cb14-208"><a href="#cb14-208" aria-hidden="true" tabindex="-1"></a><span class="ss">6.  </span>Ordem crescente na coluna 'ano'</span>
+<div class="sourceCode" id="cb26" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Quarto: do R para o Python" # Título do relatório</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "**Estudos - Introdução ao Python**"</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> "Fernanda Kelly" # Autor(a)</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span><span class="co"> python3</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="an">lang:</span><span class="co"> pt # Linguagem em português</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "`r format(Sys.Date())`" # Data do relatório</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="an">date-format:</span><span class="co"> short # Formato de data curto: dd/MM/yyyy </span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="an">toc:</span><span class="co"> true # Adiciona um índice no relatório</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co">    html: </span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co">      #css: ["custom.css"] # Customização com css</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co">      code-fold: false # code-fold: true para "ocultar" o bloco de códigos</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="co">      code-tools: true  #code-tools: true para ativar ferramentas de interação com os códigos</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="co">  #number-sections: true # Número de seções/subseções</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="co">      theme: </span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="co">        light: cosmo</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="co">        dark: superhero # Sugestão: superhero/vapor Mudar o tema do relatório aqui</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="an">title-block-banner:</span><span class="co"> "true" # "#874a9c" Pode ser 'true', uma cor ou imagem</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="an">code-annotations:</span><span class="co"> hover # Para anotações em códigos</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a><span class="co">#reference-location: margin</span></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="co">#citation-location: margin</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="co">#bibliography: references.bib</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="an">params:</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a><span class="co">  dataset: "iris" # Parâmetros aplicável em todo o documento</span></span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a><span class="fu"># Python</span></span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introdução ao Pandas</span></span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a><span class="co">#Importação da biblioteca</span></span>
+<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas</span>
+<span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a><span class="fu">### Brincadeirinhas</span></span>
+<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a>Vamos ler uma base de dados através da biblioteca pandas, que diferente do R, todas as opções de leitura de dados se encontram nessa biblioteca.</span>
+<span id="cb26-44"><a href="#cb26-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-47"><a href="#cb26-47" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-48"><a href="#cb26-48" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pandas.read_csv(<span class="st">"dados/imdb.csv"</span>)</span>
+<span id="cb26-49"><a href="#cb26-49" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(df)</span>
+<span id="cb26-50"><a href="#cb26-50" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-51"><a href="#cb26-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-54"><a href="#cb26-54" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-55"><a href="#cb26-55" aria-hidden="true" tabindex="-1"></a>df</span>
+<span id="cb26-56"><a href="#cb26-56" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-57"><a href="#cb26-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-60"><a href="#cb26-60" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-61"><a href="#cb26-61" aria-hidden="true" tabindex="-1"></a>df.describe()</span>
+<span id="cb26-62"><a href="#cb26-62" aria-hidden="true" tabindex="-1"></a><span class="co"># O python joga fora todos os NA's</span></span>
+<span id="cb26-63"><a href="#cb26-63" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-64"><a href="#cb26-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-67"><a href="#cb26-67" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-68"><a href="#cb26-68" aria-hidden="true" tabindex="-1"></a>df.info()</span>
+<span id="cb26-69"><a href="#cb26-69" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-70"><a href="#cb26-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-73"><a href="#cb26-73" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-74"><a href="#cb26-74" aria-hidden="true" tabindex="-1"></a>df.<span class="bu">sum</span>()</span>
+<span id="cb26-75"><a href="#cb26-75" aria-hidden="true" tabindex="-1"></a>df.receita.<span class="bu">sum</span>()</span>
+<span id="cb26-76"><a href="#cb26-76" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-77"><a href="#cb26-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-80"><a href="#cb26-80" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-81"><a href="#cb26-81" aria-hidden="true" tabindex="-1"></a><span class="bu">help</span>(pandas.read_csv)</span>
+<span id="cb26-82"><a href="#cb26-82" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-83"><a href="#cb26-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-84"><a href="#cb26-84" aria-hidden="true" tabindex="-1"></a><span class="fu">### Principais verbos</span></span>
+<span id="cb26-85"><a href="#cb26-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-86"><a href="#cb26-86" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Ordenar linhas</span>
+<span id="cb26-87"><a href="#cb26-87" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Selecionar linhas/colunas</span>
+<span id="cb26-88"><a href="#cb26-88" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Criar colunas</span>
+<span id="cb26-89"><a href="#cb26-89" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Sumarizar</span>
+<span id="cb26-90"><a href="#cb26-90" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Pivotagem</span>
+<span id="cb26-91"><a href="#cb26-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-92"><a href="#cb26-92" aria-hidden="true" tabindex="-1"></a><span class="fu">## Numpy</span></span>
+<span id="cb26-93"><a href="#cb26-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-96"><a href="#cb26-96" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-97"><a href="#cb26-97" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy</span>
+<span id="cb26-98"><a href="#cb26-98" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-99"><a href="#cb26-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-102"><a href="#cb26-102" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-103"><a href="#cb26-103" aria-hidden="true" tabindex="-1"></a>num_array1 <span class="op">=</span> numpy.array([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>])</span>
+<span id="cb26-104"><a href="#cb26-104" aria-hidden="true" tabindex="-1"></a>num_array2 <span class="op">=</span> numpy.array([<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>])</span>
+<span id="cb26-105"><a href="#cb26-105" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-106"><a href="#cb26-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-109"><a href="#cb26-109" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-110"><a href="#cb26-110" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(num_array1)</span>
+<span id="cb26-111"><a href="#cb26-111" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-112"><a href="#cb26-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-115"><a href="#cb26-115" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-116"><a href="#cb26-116" aria-hidden="true" tabindex="-1"></a>num_array1 <span class="op">+</span> num_array2</span>
+<span id="cb26-117"><a href="#cb26-117" aria-hidden="true" tabindex="-1"></a>num_array1<span class="op">/</span>num_array2</span>
+<span id="cb26-118"><a href="#cb26-118" aria-hidden="true" tabindex="-1"></a>num_array1<span class="op">**</span>num_array2</span>
+<span id="cb26-119"><a href="#cb26-119" aria-hidden="true" tabindex="-1"></a>num_array1<span class="op">-</span>num_array2</span>
+<span id="cb26-120"><a href="#cb26-120" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-121"><a href="#cb26-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-124"><a href="#cb26-124" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-125"><a href="#cb26-125" aria-hidden="true" tabindex="-1"></a>num_array1.mean()</span>
+<span id="cb26-126"><a href="#cb26-126" aria-hidden="true" tabindex="-1"></a>num_array1.<span class="bu">min</span>()</span>
+<span id="cb26-127"><a href="#cb26-127" aria-hidden="true" tabindex="-1"></a>num_array1.std()</span>
+<span id="cb26-128"><a href="#cb26-128" aria-hidden="true" tabindex="-1"></a>num_array1.<span class="bu">max</span>()</span>
+<span id="cb26-129"><a href="#cb26-129" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-130"><a href="#cb26-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-133"><a href="#cb26-133" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-134"><a href="#cb26-134" aria-hidden="true" tabindex="-1"></a>numpy.log10(num_array1)</span>
+<span id="cb26-135"><a href="#cb26-135" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-136"><a href="#cb26-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-137"><a href="#cb26-137" aria-hidden="true" tabindex="-1"></a>Numpy é uma biblioteca que serve para você fazer contas com vetores, métodos matemáticos, enquanto o Pandas é uma biblioteca de manipulação de dados, então ela define o DataFrame e um milhão de métodos para mexer no DataFrame, tipo o statsModels é a biblioteca de estatística do Python.</span>
+<span id="cb26-138"><a href="#cb26-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-141"><a href="#cb26-141" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-142"><a href="#cb26-142" aria-hidden="true" tabindex="-1"></a>num_array1.astype(<span class="st">"str"</span>)</span>
+<span id="cb26-143"><a href="#cb26-143" aria-hidden="true" tabindex="-1"></a>num_array1.astype(<span class="st">"int"</span>)</span>
+<span id="cb26-144"><a href="#cb26-144" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-145"><a href="#cb26-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-148"><a href="#cb26-148" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-149"><a href="#cb26-149" aria-hidden="true" tabindex="-1"></a>num_array1.dtype</span>
+<span id="cb26-150"><a href="#cb26-150" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb26-151"><a href="#cb26-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-154"><a href="#cb26-154" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb26-155"><a href="#cb26-155" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
