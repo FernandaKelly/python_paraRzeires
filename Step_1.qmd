@@ -30,6 +30,8 @@ params:
 
 # Python
 
+É importante ressalta que o pacote *reticulate* deve ser instalado e carregado para que os códigos funcionem.
+
 ```{python}
 objeto_texto_py = "primeira linha em python a gente nunca esquece"
 objeto_texto_py
@@ -80,6 +82,8 @@ stringr::str_split(objeto_texto, " ", 4)
 ```
 
 ## Introdução ao Pandas
+
+Ao importar a biblioteca *pandas* dessa forma, lembre-se que todas as suas funções serão carregadas.
 
 ```{python}
 #Importação da biblioteca
