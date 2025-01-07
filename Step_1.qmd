@@ -166,7 +166,7 @@ numpy:           [NOT FOUND]
 
 # Python
 
-
+Vamos brincar com os tipos e formar que a linguagem python lida com objetos.
 
 ```{python}
 objeto_texto_py = "primeira linha em python a gente nunca esquece"
@@ -243,14 +243,18 @@ Agora vamos importar a biblioteca de interesse.
 import pandas
 ```
 
+*Se você não conseguiu instalar, volte no ponto de preparação.*
+
 ### Brincadeirinhas
 
-Vamos ler uma base de dados através da biblioteca pandas, que diferente do R, todas as opções de leitura de dados se encontram nessa biblioteca.
+Vamos ler uma base de dados através da biblioteca pandas, que diferente do R, todas as opções de leitura de dados se encontram nessa mesma biblioteca.
 
 ```{python}
 df = pandas.read_csv("dados/imdb.csv")
 type(df)
 ```
+
+
 
 ```{python}
 df
