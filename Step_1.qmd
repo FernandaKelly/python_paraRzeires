@@ -254,16 +254,17 @@ df = pandas.read_csv("dados/imdb.csv")
 type(df)
 ```
 
-
-
 ```{python}
 df
 ```
 
+Como defaut o python joga 'fora" todos os NA's:
+
 ```{python}
 df.describe()
-# O python joga fora todos os NA's
 ```
+
+Para saber o nome das variáveis,
 
 ```{python}
 df.info()
