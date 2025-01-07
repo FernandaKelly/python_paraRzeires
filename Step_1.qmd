@@ -28,9 +28,145 @@ params:
   dataset: "iris" # Parâmetros aplicável em todo o documento
 ---
 
+# Preparando o ambiente
+
+É importante ressalta que o pacote *reticulate* deve ser instalado e carregado para que os códigos funcionem. Ressalto que utilizo o sistema operacional Linux em sua versão Ubuntu, blz?
+
+```{r}
+install.packages(reticulate)
+library(reticulate)
+```
+
+Aqui nós vamos utilizar MUUUUUITO o terminal. E o terminal que você vai utilizar fica a sua escolha, pode ser o da IDE Rstudio ou o da máquina. Bem, o que acontece, em alguns casos, é a impossibilidade de instalar os pacotes pandas e numpy quando estamos utilizando tanta coisa junto: Quarto, pacote reticulate, python e IDE RStudio. 
+
+Sendo assim, vamos configurar o python no ambiente virtual? Se você não tiver ele instalado, vem que já vamos fazer isso também.
+
+1. python3 --version
+
+```{markdown}
+Python 3.10.12
+```
+
+1. python3 -m pip install jupyter
+1.1. quarto check jupyter
+
+```{markdown}
+Quarto 1.5.26
+[✓] Checking Python 3 installation....OK
+      Version: 3.10.12
+      Path: /usr/bin/python3
+      Jupyter: 5.7.1
+      Kernels: python3
+
+[✓] Checking Jupyter engine render....OK
+```
+
+1. Você vai no R e verificar o diretório em que o seu python está localizado com *reticulate::py_config()*. O resultado do meu está a seguir:
+
+```{markdown}
+python:         /home/fernanda/.virtualenvs/r-reticulate/bin/python
+libpython:      /usr/lib/python3.10/config-3.10-x86_64-linux-gnu/libpython3.10.so
+pythonhome:     /home/fernanda/.virtualenvs/r-reticulate:/home/fernanda/.virtualenvs/r-reticulate
+version:        3.10.12 (main, Nov  6 2024, 20:22:13) [GCC 11.4.0]
+numpy:           [NOT FOUND]
+```
+
+Veja que ele está em *home/fernanda/.virtualenvs/r-reticulate/bin/python*.
+
+1. Volte ao terminal e verifique se reslamente este diretório é existente com *source /home/fernanda/.virtualenvs/r-reticulate*. Se sim, bora ativar ele?
+1.1 Ainda no terminal, utilize *sudo python3 -m venv /home/fernanda/.virtualenvs/r-reticulate*. Veja que desta vez estamos utilizando o comando *sudo* e deverá inserir a senha da sua máquina para que o comando seja executado.
+1.2 Pode ocorrer o seguinte erro:
+
+```{markdown}
+The virtual environment was not created successfully because ensurepip is not
+available.  On Debian/Ubuntu systems, you need to install the python3-venv
+package using the following command.
+
+    apt install python3.10-venv
+
+You may need to use sudo with that command.  After installing the python3-venv
+package, recreate your virtual environment.
+
+Failing command: /home/fernanda/.virtualenvs/r-reticulate/bin/python3
+
+```
+
+Apareceu pra você? Volte ao terminal e execute *sudo apt install python3.10-venv*. Vai parecer a mensagem abaixo e mais um monte de instalações. Não se preocupe! É assim mesmo.
+
+```{markdown}
+Lendo listas de pacotes... Pronto
+Construindo árvore de dependências... Pronto
+Lendo informação de estado... Pronto        
+Os pacotes adicionais seguintes serão instalados:
+  python3-pip-whl python3-setuptools-whl
+Os NOVOS pacotes a seguir serão instalados:
+  python3-pip-whl python3-setuptools-whl python3.10-venv
+```
+
+1. Após a instalação acima, execute no terminal *sudo python3 -m venv /home/fernanda/.virtualenvs/r-reticulate*. Vai lhe pedir a senha e iniciar a instalação.
+
+1. Verifique se ele está instalado executando *ls /home/fernanda/.virtualenvs/r-reticulate/bin/*.
+
+```{markdown}
+activate      activate.fish  pip   pip3.10  python3
+activate.csh  Activate.ps1   pip3  python   python3.10
+```
+
+1. Esse é o momento que devemos ativálo no sistema. Execute no terminal *source /home/fernanda/.virtualenvs/r-reticulate/bin/activate* e você terá como produto algo similar/igual a:
+
+```{markdown}
+(r-reticulate) nome-da-sua-maquina@pop-os:~$ 
+```
+
+Se isso apareceu é sinal que funfou D-E-M-A-I-S.
+
+1. Agora é só executar os comandos:
+
+```{markdown}
+(r-reticulate) nome-da-sua-maquina@pop-os:~$ pip install --upgrade pip
+(r-reticulate) nome-da-sua-maquina@pop-os:~$ pip install numpy pandas
+```
+
+Você viu que é no ambiente virtual, né? Presta atenção nisso aqui *(r-reticulate) nome-da-sua-maquina@pop-os:~$*. Se foi, foi e bola pra frente.
+
+1. Feito isso, vamos verificar se tudo está bem instalado. Execute *(r-reticulate) fernanda@pop-os:~$ pip list* e o produto, na minha máquina, no seu deve ser igual ou com mais pacote, é:
+
+```{markdown}
+Package         Version
+--------------- -----------
+numpy           2.2.1
+pandas          2.2.3
+pip             24.3.1
+python-dateutil 2.9.0.post0
+pytz            2024.2
+setuptools      59.6.0
+six             1.17.0
+tzdata          2024.2
+```
+
+O nome disso é S-U-C-E-S-S-O!
+
+1. Tudo instaladinho, vamos voltar para o RStudio e configurar o reticulate para usar o ambiente virtual recém-criado. Execute o comando abaixo no corpo do seu código no RStudio:
+
+```{markdown}
+reticulate::use_virtualenv("/home/fernanda/.virtualenvs/r-reticulate", required = TRUE)
+```
+
+1.1 Vamos confirmar se está no lugarzinho correto? Execute *reticulate::py_config()*.
+
+```{markdown}
+python:         /home/fernanda/.virtualenvs/r-reticulate/bin/python
+libpython:      /usr/lib/python3.10/config-3.10-x86_64-linux-gnu/libpython3.10.so
+pythonhome:     /home/fernanda/.virtualenvs/r-reticulate:/home/fernanda/.virtualenvs/r-reticulate
+version:        3.10.12 (main, Nov  6 2024, 20:22:13) [GCC 11.4.0]
+numpy:           [NOT FOUND]
+```
+
+1.1 Execute *reticulate::repl_python()* e corre para o abraço. No RStudio permite que você entre em um modo interativo de Python diretamente dentro da sua sessão R. Essencialmente, ela cria um ambiente de trabalho Python "dentro" do RStudio, onde você pode executar comandos Python como se estivesse em um terminal Python.
+
 # Python
 
-É importante ressalta que o pacote *reticulate* deve ser instalado e carregado para que os códigos funcionem.
+
 
 ```{python}
 objeto_texto_py = "primeira linha em python a gente nunca esquece"
@@ -83,7 +219,24 @@ stringr::str_split(objeto_texto, " ", 4)
 
 ## Introdução ao Pandas
 
-Ao importar a biblioteca *pandas* dessa forma, lembre-se que todas as suas funções serão carregadas.
+Ao importar a biblioteca *pandas* dessa forma, lembre-se que todas as suas funções serão carregadas. Caso você esteja usando o linux (é o meu caso), pode ser que você se depare com o seguinte erro:
+
+```{markdown}
+Error in py_call_impl(callable, call_args$unnamed, call_args$named) : 
+  Evaluation error: ModuleNotFoundError: No module named 'pandas'
+Run `reticulate::py_last_error()` for details..
+Erros durante o embrulho: Evaluation error: ModuleNotFoundError: No module named 'pandas'
+Run `reticulate::py_last_error()` for details..
+Error: no more error handlers available (recursive errors?); invoking 'abort' restart
+```
+
+Para resolvê-lo, você deve ir ao terminal e seguir com o seguinte comando,
+
+```{markdown}
+pip install pandas
+```
+
+Agora vamos importar a biblioteca de interesse.
 
 ```{python}
 #Importação da biblioteca
