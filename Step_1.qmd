@@ -330,5 +330,3 @@ num_array1.astype("int")
 ```{python}
 num_array1.dtype
 ```
-
-Numpy é um grande aliado (só não sei de quem rs).
