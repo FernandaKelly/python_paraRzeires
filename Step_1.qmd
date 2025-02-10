@@ -112,7 +112,7 @@ activate      activate.fish  pip   pip3.10  python3
 activate.csh  Activate.ps1   pip3  python   python3.10
 ```
 
-1. Esse é o momento que devemos ativálo no sistema. Execute no terminal *source /home/fernanda/.virtualenvs/r-reticulate/bin/activate* e você terá como produto algo similar/igual a:
+1. Esse é o momento que devemos ativá-lo no sistema. Execute no terminal *source /home/fernanda/.virtualenvs/r-reticulate/bin/activate* e você terá como produto algo similar/igual a:
 
 ```{markdown}
 (r-reticulate) nome-da-sua-maquina@pop-os:~$ 
