@@ -281,11 +281,52 @@ help(pandas.read_csv)
 
 ### Principais verbos
 
+Vamos fazer um/dois exemplos de cada um desses verbos.
+
 -   Ordenar linhas
+
+ Para ordenar linhas podemos utilizar **sort_index()** ou **sort_values()**. 
+ 
+```{python}
+df2 = df.sort_values(['id_filme', 'ano'])
+```
+
+É muito falado que na linguagem python o índice se inicia no 0 e, por isso, ao solicitar a ordenação pelo índice a primeira linha será a 0. E , caso seja de interesse, podemos ordenar de forma decrescente, visto que o defautl é na ordem crescente. Para isso basta utilizar dentro da função *sort_index* o parâmetro *ascending = False*. 
+
+```{python}
+df3 = df.sort_index(ascending = False)
+```
+
+
 -   Selecionar linhas/colunas
 -   Criar colunas
 -   Sumarizar
 -   Pivotagem
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Numpy
 
