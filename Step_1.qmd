@@ -285,20 +285,68 @@ Vamos fazer um/dois exemplos de cada um desses verbos.
 
 -   Ordenar linhas
 
- Para ordenar linhas podemos utilizar **sort_index()** ou **sort_values()**. 
+Para ordenar linhas podemos utilizar **sort_index()** ou **sort_values()**. 
  
 ```{python}
 df2 = df.sort_values(['id_filme', 'ano'])
 ```
 
-É muito falado que na linguagem python o índice se inicia no 0 e, por isso, ao solicitar a ordenação pelo índice a primeira linha será a 0. E , caso seja de interesse, podemos ordenar de forma decrescente, visto que o defautl é na ordem crescente. Para isso basta utilizar dentro da função *sort_index* o parâmetro *ascending = False*. 
+É muito falado que na linguagem python o índice se inicia no **0** e, por isso, ao solicitar a ordenação pelo índice a primeira linha será a 0. E , caso seja de interesse, podemos ordenar de forma decrescente, visto que o defautl é na ordem crescente. Para isso basta utilizar dentro da função *sort_index* o parâmetro *ascending = False*. 
 
 ```{python}
 df3 = df.sort_index(ascending = False)
 ```
 
+E você pode pensar, mas o **sort_values** também não faz isso? FAZ SIM"
+
+```{python}
+df4 = df.sort_values(['id_filme', 'ano'], ascending = False)
+```
 
 -   Selecionar linhas/colunas
+
+É possível selecionar linhar e colunas das seguintes formas:
+
+- Utilizando colchetes:
+
+Na minha opinião é ruim, visto que a gente precisa saber o nome da variável bem certinho. 
+
+```{python}
+df["ano"]
+```
+
+E como você pode ver, a variável ano está como **float64**, o que implica ter esse **.0** ao final. Vamos trocar isso rapidinho? Clato! Vamos selecionar a variável com o colchetes.
+
+```{python}
+df["ano"].fillna(0).astype(int)
+```
+
+Não quer tratar os NA's agora? Então vamos utilizar somente **astype('Int64')**.
+
+```{python}
+df["ano"].astype('Int64')
+```
+
+Mas, nesse momento nós estamos estudando o pandas, então vamos utilizar o pandar também para fazer essa transformação. Isso pode ser útil para reduzir o uso de memória ao escolher o tipo inteiro mais eficiente.
+
+```{python}
+pandas.to_numeric(df["ano"], downcast="integer")
+```
+
+Fer, que parâmetro é esse aí? **Downcast**?
+
+Esse parâmetro economiza memória ao escolher automaticamente int8, int16 ou int32, em vez de um int64 desnecessário, o que ocorre quando usamos a função astype. Ele também evita valores inesperados ao converter corretamente os números sem arredondamentos. Mas, é importante ressaltar que: **Se quiser garantir que NaN sejam preservados, use df["ano"].astype('Int64'), pois pd.to_numeric() converte NaN para float64.**
+
+
+- Utilizando a função .loc
+- Utilizando a função .iloc
+
+E como funciona para cada uma delas? Vamos lá...
+
+
+
+
+
 -   Criar colunas
 -   Sumarizar
 -   Pivotagem
