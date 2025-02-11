@@ -217,7 +217,7 @@ stringr::str_to_upper(objeto_texto)
 stringr::str_split(objeto_texto, " ", 4)
 ```
 
-## Introdução ao Pandas
+## Pandas
 
 Ao importar a biblioteca *pandas* dessa forma, lembre-se que todas as suas funções serão carregadas. Caso você esteja usando o linux (é o meu caso), pode ser que você se depare com o seguinte erro:
 
@@ -283,7 +283,7 @@ help(pandas.read_csv)
 
 Vamos fazer um/dois exemplos de cada um desses verbos.
 
--   Ordenar linhas
+####   Ordenar linhas
 
 Para ordenar linhas podemos utilizar **sort_index()** ou **sort_values()**. 
  
@@ -303,11 +303,11 @@ E você pode pensar, mas o **sort_values** também não faz isso? FAZ SIM"
 df4 = df.sort_values(['id_filme', 'ano'], ascending = False)
 ```
 
--   Selecionar linhas/colunas
+####   Selecionar linhas/colunas
 
 É possível selecionar linhar e colunas das seguintes formas:
 
-- Utilizando colchetes:
+  - Utilizando colchetes:
 
 Na minha opinião é ruim, visto que a gente precisa saber o nome da variável bem certinho. 
 
@@ -338,18 +338,62 @@ Fer, que parâmetro é esse aí? **Downcast**?
 Esse parâmetro economiza memória ao escolher automaticamente int8, int16 ou int32, em vez de um int64 desnecessário, o que ocorre quando usamos a função astype. Ele também evita valores inesperados ao converter corretamente os números sem arredondamentos. Mas, é importante ressaltar que: **Se quiser garantir que NaN sejam preservados, use df["ano"].astype('Int64'), pois pd.to_numeric() converte NaN para float64.**
 
 
-- Utilizando a função .loc
-- Utilizando a função .iloc
+  - Utilizando a função .loc
+  
+Esse método é estilo o que usamos no R. Veja que estamos usando o **:** como indexador das linhas.
+  
+```{python}
+df.loc[:, ['ano']]
+```
+  
+  - Utilizando a função .iloc
 
-E como funciona para cada uma delas? Vamos lá...
+Essa função é A M-E-L-H-O-R para os Rzeires (na minha opinião), pois utilizamos as posições das variáveis. Veja só:
+
+```{python}
+df.iloc[:, 2]
+```
+
+A ideia é selecionar mais colunas? Podemos fazer por posição das variáveis do dataframe:
+
+```{python}
+df.iloc[:, 1:4]
+```
+
+E como selecionar as linhas? Acredito que agora tenha ficado mais fácil.
+
+```{python}
+df.iloc[1:10, 1:4]
+```
+
+Outra forma de selecionar colunas é em forma de atributo. Se vê muito em tutoriais essa forma de seleção de colunas.
+
+```{python}
+df.ano[1:10]
+```
+
+####   Criar colunas
+
+Criar colunas do zeroeu acho um pouco mais dificil no dia a dia de uma analista/cientista de dados, a não ser que esteja criando KPI's, mas o que fazemos MUITO é criar variáveis a partir de variáveis já existente na base de dados.
+
+Nessa etapa eu fui aprender com o [Programação Dinâmica](https://www.youtube.com/watch?v=S4hPzAKxClo).
+
+Vamos lá?
 
 
 
 
 
--   Criar colunas
--   Sumarizar
--   Pivotagem
+
+
+
+
+
+
+
+
+####   Sumarizar
+####   Pivotagem
 
 
 
