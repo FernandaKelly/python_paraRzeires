@@ -389,35 +389,63 @@ Vamos lá?
 Antes de tudo que aplicar algo que faça essas variáveis float se tornarem int, mas todas de uma vez só para não perder tempo. Eu achei incrível a forma que o python atua com essa necessidade e acabei aprendendo duas novas funçlões, a **select_dtypes**, **apply** e a partir dela o parâmetro **errors = "coerce"** que transforma a notação científica em um número normal. Essa transformação foi necessária devido a algumas variáveis estarem em notação cientifica.
 
 ```{python}
+df.replace([float("inf"), float("-inf")], pandas.NA, inplace=True) 
+```
 
-df[df.select_dtypes(include="float").columns] = (
-  df.select_dtypes(include="float")
-  .apply(pandas.to_numeric, errors = "coerce")
-  .astype('Int64')
-  )
+```{python}
+# print(df.select_dtypes(include="float").columns)
+# for col in df.select_dtypes(include="float").columns:
+#     print(f"\nColuna: {col}")
+#     print(df[col].unique())  # Verifica valores únicos
+```
+
+```{python}
+colunas_float = ["ano", "orcamento", "receita", "receita_eua", "nota_imdb", "num_criticas_publico", "num_criticas_critica"]
+```
 
 
+```{python}
 
+df[df.select_dtypes(include="float").columns] = df.select_dtypes(include="float").apply(pandas.to_numeric, errors = "coerce").round(0).astype("Int64")
 
+# OU PODEMOS TRABALHAR DA SENGUINTE FOR: #
+df[colunas_float] = df[colunas_float].apply(pandas.to_numeric, errors = "coerce").round(0).astype("Int64")
 
-
-
-
-
-print(df.select_dtypes(include="float").columns)
-for col in df.select_dtypes(include="float").columns:
-    print(f"\nColuna: {col}")
-    print(df[col].unique())  # Verifica valores únicos
+                                             
+# UMA FORMA MAIS INTERESSANTE DE FAZER O MESMO CÓDIGO ACIMA COM A IDEIA DE ESCADA #
+# df[df.select_dtypes(include="float").columns] = (
+#   df.select_dtypes(include="float")
+#   .apply(pandas.to_numeric, errors = "coerce")
+#   .round(0)
+#   .astype('Int64')
+#   )
 
 ```
+
+E você estar se perguntando: Fer, porquê você usou o **.astype** após aplicar o **pandas.to_mumeric**?
+
+
+
 
 Observando a base de dados:
 
 ```{python}
-df["ano"]
+df.dtypes
+df.info()
 ```
 
 
+```{python}
+df.replace([float("inf"), float("-inf")], pandas.NA, inplace=True)  # Substitui infinitos por NaN
+colunas_float = ["ano", "orcamento", "receita", "receita_eua", "nota_imdb", "num_criticas_publico", "num_criticas_critica"]
+
+df[colunas_float] = df[colunas_float].apply(pandas.to_numeric, errors="coerce").round(0).astype("Int64")  # Converte para número, mantendo NaN
+
+df[colunas_float] = df[colunas_float].astype("Int64")  # Agora converte para Int64
+
+df[colunas_float] = df[colunas_float].round(0).astype("Int64")  # Arredonda antes de converter
+
+```
 
 
 
