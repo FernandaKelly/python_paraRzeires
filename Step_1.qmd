@@ -388,28 +388,45 @@ Vamos lá?
 
 Antes de tudo que aplicar algo que faça essas variáveis float se tornarem int, mas todas de uma vez só para não perder tempo. Eu achei incrível a forma que o python atua com essa necessidade e acabei aprendendo duas novas funçlões, a **select_dtypes**, **apply** e a partir dela o parâmetro **errors = "coerce"** que transforma a notação científica em um número normal. Essa transformação foi necessária devido a algumas variáveis estarem em notação cientifica.
 
+Como tratativa de float -inf ou inf, vamos alterá-las por NA:
+
 ```{python}
 df.replace([float("inf"), float("-inf")], pandas.NA, inplace=True) 
 ```
 
+Uma das formas de encontrar as variáveis da classe float na base de dados é utilizando a função **select_dtypes**, sendo assim:
+
 ```{python}
-# print(df.select_dtypes(include="float").columns)
-# for col in df.select_dtypes(include="float").columns:
-#     print(f"\nColuna: {col}")
-#     print(df[col].unique())  # Verifica valores únicos
+ print(df.select_dtypes(include="float").columns)
+ for col in df.select_dtypes(include="float").columns:
+     print(f"\nColuna: {col}")
+     print(df[col].unique())  # Verifica valores únicos
 ```
+
+As variáveis flot são:
+
+- ano
+- orcamento
+- receita
+- receita_eua
+- nota_imdb
+- num_criticas_publico
+- num_criticas_critica
+
+Coloquei elas em um vetor para facilitar:
 
 ```{python}
 colunas_float = ["ano", "orcamento", "receita", "receita_eua", "nota_imdb", "num_criticas_publico", "num_criticas_critica"]
 ```
 
+Seguindo a transformação:
 
 ```{python}
 
 df[df.select_dtypes(include="float").columns] = df.select_dtypes(include="float").apply(pandas.to_numeric, errors = "coerce").round(0).astype("Int64")
 
 # OU PODEMOS TRABALHAR DA SENGUINTE FOR: #
-df[colunas_float] = df[colunas_float].apply(pandas.to_numeric, errors = "coerce").round(0).astype("Int64")
+#df[colunas_float] = df[colunas_float].apply(pandas.to_numeric, errors = "coerce").round(0).astype("Int64")
 
                                              
 # UMA FORMA MAIS INTERESSANTE DE FAZER O MESMO CÓDIGO ACIMA COM A IDEIA DE ESCADA #
@@ -422,28 +439,49 @@ df[colunas_float] = df[colunas_float].apply(pandas.to_numeric, errors = "coerce"
 
 ```
 
-E você estar se perguntando: Fer, porquê você usou o **.astype** após aplicar o **pandas.to_mumeric**?
+E você estar se perguntando: Fer, porquê você usou o **.astype** após aplicar o **pandas.to_mumeric** e o **.round** antes do **.astype**:?
 
+Eu gosto de dizer que a programação orientada a objeto é uma escadinha e para ir subindo/descendo precisamos passar por etapas para não cair. A função **astype("Int64")** possui alguns requisitos para conseguir converter float ou o que desejar para inteiro, logo se houver:  
 
+- Valores decimais reais (12.34, 56.78)
+- Strings ocultas ("unknown", "N/A") misturadas na coluna
+- Valores infinitos (inf, -inf) não removidos corretamente
 
+Vai dar E-R-R-O, pois estes casos não conseguem ser convestido e, por isso, precisamos dessas tratativas. Já o pandas.to_numeric(errors="coerce") converte valores para número e transforma erros em NaN.
 
-Observando a base de dados:
+Observando a base de dados após a manipulação:
 
 ```{python}
 df.dtypes
 df.info()
 ```
 
+E essa **data_lancamento**?
 
 ```{python}
-df.replace([float("inf"), float("-inf")], pandas.NA, inplace=True)  # Substitui infinitos por NaN
-colunas_float = ["ano", "orcamento", "receita", "receita_eua", "nota_imdb", "num_criticas_publico", "num_criticas_critica"]
 
-df[colunas_float] = df[colunas_float].apply(pandas.to_numeric, errors="coerce").round(0).astype("Int64")  # Converte para número, mantendo NaN
+type(df["data_lancamento"])
 
-df[colunas_float] = df[colunas_float].astype("Int64")  # Agora converte para Int64
+```
 
-df[colunas_float] = df[colunas_float].round(0).astype("Int64")  # Arredonda antes de converter
+Veja que no describe essa variável se encontra como objetc e classe **pandas.core.series.Series**. Precisamos que ela seja considerada como date/data (Poxa! Se data no R já dava trabalho, espero que o python nos ajude de uma forma melhor em relação a isso.).
+
+Com o pandas podemos utilizar a função bem intuitiva que é **to_datetime** para converter essa variável. Mas, veja que dá um errinho aí...
+
+```{python}
+df['data_lancamento'] = pandas.to_datetime(df['data_lancamento'])
+```
+
+Ele reclama do formato da nossa data que é "%Y-%m-%d" e nos dá que algumas observações que não estão nesse formato. E sim, nós temos casos em que temos **somente** o ano e não a data por inteiro.
+
+O que vamos fazer?
+
+Podemos resolver isso identificando e substituindo as linhas que contêm apenas o ano por NaN, visto que, no primeiro momento, é o que faz sentido. A brincadeira com datas sempre fica séria e vejo que aqui teremos que trabalhar com strings e regex para identificar esse padrão do ano (YYYY) e, como estamnos no python, procurei uma library para isso e me indicaram um de re.
+
+- *A biblioteca re do Python é uma biblioteca padrão que permite trabalhar com expressões regulares. Com ela, é possível procurar padrões de texto, como todas as palavras que começam com "a" ou todas as frases que terminam com "!".* 
+
+
+```{r}
 
 ```
 
@@ -453,6 +491,21 @@ df[colunas_float] = df[colunas_float].round(0).astype("Int64")  # Arredonda ante
 
 
 
+
+
+
+
+
+
+```{python}
+df['data_lancamento']
+df["data_lancamento"] = pandas.to_datetime(df["data_lancamento"], errors="coerce", format="mixed").dt.date
+
+```
+
+```{python}
+type(df['data_lancamento'])
+```
 
 ####   Sumarizar
 ####   Pivotagem
