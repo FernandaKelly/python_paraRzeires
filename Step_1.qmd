@@ -260,7 +260,6 @@ df
 
 Essa leitura de banco de dados é mais fácil que você vai ver (rs), mas é bem possível que você se depare com alguns erros de encoding, de separadores ou decimais. A função reade_csv do pandas possui parâmetros para especificar cada um desses problemas com o intuito de solucioná-los. Veja a documentação da função.
 
-
 Como defaut o python joga 'fora" todos os NA's quando usamos essa função:
 
 ```{python}
@@ -387,8 +386,36 @@ Nessa etapa eu fui aprender com o [Programação Dinâmica](https://www.youtube.
 
 Vamos lá?
 
+Antes de tudo que aplicar algo que faça essas variáveis float se tornarem int, mas todas de uma vez só para não perder tempo. Eu achei incrível a forma que o python atua com essa necessidade e acabei aprendendo duas novas funçlões, a **select_dtypes**, **apply** e a partir dela o parâmetro **errors = "coerce"** que transforma a notação científica em um número normal. Essa transformação foi necessária devido a algumas variáveis estarem em notação cientifica.
+
+```{python}
+
+df[df.select_dtypes(include="float").columns] = (
+  df.select_dtypes(include="float")
+  .apply(pandas.to_numeric, errors = "coerce")
+  .astype('Int64')
+  )
 
 
+
+
+
+
+
+
+
+print(df.select_dtypes(include="float").columns)
+for col in df.select_dtypes(include="float").columns:
+    print(f"\nColuna: {col}")
+    print(df[col].unique())  # Verifica valores únicos
+
+```
+
+Observando a base de dados:
+
+```{python}
+df["ano"]
+```
 
 
 
