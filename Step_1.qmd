@@ -481,10 +481,24 @@ Podemos resolver isso identificando e substituindo as linhas que contêm apenas 
 - *A biblioteca re do Python é uma biblioteca padrão que permite trabalhar com expressões regulares. Com ela, é possível procurar padrões de texto, como todas as palavras que começam com "a" ou todas as frases que terminam com "!".* 
 
 
-```{r}
-
+```{python}
+import re
 ```
 
+```{python}
+
+data_lancamentoN2 = "data_lancamento"
+mascara_anos = df[data_lancamentoN2].astype(str).str.match(r"^\d{4}$")
+
+# Substituir os anos isolados por NaN
+df.loc[mascara_anos, data_lancamentoN2] = pandas.NA
+
+# Agora, converter para datetime e extrair apenas a data
+df[data_lancamentoN2] = pandas.to_datetime(df[data_lancamentoN2], errors="coerce").dt.date
+
+# Verificar o resultado
+print(df[data_lancamentoN2].head())
+```
 
 
 
