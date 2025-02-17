@@ -469,7 +469,17 @@ Veja que no describe essa variável se encontra como objetc e classe **pandas.co
 Com o pandas podemos utilizar a função bem intuitiva que é **to_datetime** para converter essa variável. Mas, veja que dá um errinho aí...
 
 ```{python}
-df['data_lancamento'] = pandas.to_datetime(df['data_lancamento'])
+#df['data_lancamento'] = pandas.to_datetime(df['data_lancamento'])
+```
+
+
+```{markdown}
+Error in py_call_impl(callable, call_args$unnamed, call_args$named) : 
+  Evaluation error: NameError: name 'pandas' is not defined
+Run `reticulate::py_last_error()` for details..
+Erros durante o embrulho: Evaluation error: NameError: name 'pandas' is not defined
+Run `reticulate::py_last_error()` for details..
+Error: no more error handlers available (recursive errors?); invoking 'abort' restart
 ```
 
 Ele reclama do formato da nossa data que é "%Y-%m-%d" e nos dá que algumas observações que não estão nesse formato. E sim, nós temos casos em que temos **somente** o ano e não a data por inteiro.
@@ -485,6 +495,8 @@ Podemos resolver isso identificando e substituindo as linhas que contêm apenas 
 import re
 ```
 
+Sendo assim, vamos alterar aquelas observações com apenas 4 digitos para valores ausentes utilizando as blibliotecas **re** e **pandas**:
+
 ```{python}
 
 data_lancamentoN2 = "data_lancamento"
@@ -496,32 +508,37 @@ df.loc[mascara_anos, data_lancamentoN2] = pandas.NA
 # Agora, converter para datetime e extrair apenas a data
 df[data_lancamentoN2] = pandas.to_datetime(df[data_lancamentoN2], errors="coerce").dt.date
 
+```
+
+Obs.: usamos o parâmetro **errors="coerce"** em funções como pd.to_numeric() ou pd.to_datetime() pois estes substituem os valores inválidos por NaN (Not a Number) ou NaT (Not a Time), em vez de gerar um erro.
+
+Será que deu certo?
+
+```{python}
 # Verificar o resultado
 print(df[data_lancamentoN2].head())
 ```
 
-
-
-
-
-
-
-
-
-
-
+Se fosse no R, provavelmente eu iria utilizar a função **case_when** ou o nosso querido **ifelse**, mas aqui no python temos outra opção: utilizar a função **where** da biblioteca numpy (vamos estudar ela no próximo post).
 
 ```{python}
-df['data_lancamento']
-df["data_lancamento"] = pandas.to_datetime(df["data_lancamento"], errors="coerce", format="mixed").dt.date
-
+import numpy
 ```
 
 ```{python}
-type(df['data_lancamento'])
+data_lancamentoN3 = "data_lancamento"
+df[data_lancamentoN3] = numpy.where(mascara_anos, pandas.NA, df[data_lancamentoN3])
+df[data_lancamentoN3]  = data_lancamentoN3
+print(df[data_lancamentoN3].head())
 ```
+
+Acredito que já deu pra entender que a lógica de criação de variáveis é bem parecida com a do R e isso já é mais do que meio caminho andado no universo de ETL.
 
 ####   Sumarizar
+
+
+
+
 ####   Pivotagem
 
 
