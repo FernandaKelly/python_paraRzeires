@@ -536,6 +536,82 @@ Acredito que já deu pra entender que a lógica de criação de variáveis é be
 
 ####   Sumarizar
 
+Uma parte BEMMM importante é a sumarização dos nossos dados. 
+
+Como assim Fê?
+
+Tentar trazer medidas de posição já é um ótimo início, mas muitas vezes queremos agrupar a base de dados por alguma variável e assim somar algum valor, fazer a média para entender algum comportamento ou simplesmente contar o número de observações.
+
+No R nós temos o dplyr e suas funções que são incríveis, no python... Já é um pouco diferente. Conhecendo a nossa base de dados, vamos selecionar algumas de interesse:
+
+- genero
+- ano
+- duracao
+- nota_imdb
+
+Com essas variáveis vamos conseguir trabalhar algumas funções importantes.
+
+```{python}
+variaveis_summ = ["generos", "ano", "duracao", "nota_imdb", "receita", "orcamento"]
+df_summ = df.filter(variaveis_summ)
+df_summ.info()
+```
+
+```{python}
+
+
+df.assign(
+  duracao = df.duracao/60
+)
+
+df["duracao"]
+# (imdb.assign(
+#     lucro = lambda x: x.receita-x.orcamento,
+#     # essa linha é igual a trocar o x. por imdb. e tirar o "lambda x"
+#     # x. vira imdb., então:  x.receita-x.orcamento vira imdb.receita-imdb.orcamento
+#     categoria_lucrou = lambda x: x.lucro > 0,
+#     duracao = imdb.duracao/60
+# ).
+#  filter(["titulo","ano", "lucro", "duracao", "categoria_lucrou"]))
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+A primeira pergunta que eu tenho é: Quantos gêneros nós temos?
+
+```{python}
+df["generos"].unique()
+```
+
+Parece ser um tantinho bom, mas quantos filmes temos em cada um deles?
+
+```{python}
+df["generos"].value_counts()
+print(df["generos"].value_counts().head(30))
+```
+
+É, já vimos que há muitos gêneros que aparecem apenas uma vez. Vamos ver quantos eles são?
+
+```{python}
+df["generos"].value_counts()[df["generos"].value_counts() == 1]
+```
+
+Poxa! De 874 gêneros, 288 aparecem somente uma vez, indicando que 33% dos filmes são gêneros pouco produzidos.
+
 
 
 

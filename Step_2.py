@@ -1,4 +1,15 @@
-## Pandas
+# vamos pensar em manipulação de dados fazendo um paralelo com o dplyr.
+# dplyr: 6 verbos principais
+# select()    # seleciona colunas do data.frame
+# arrange()   # reordena as linhas do data.frame
+# filter()    # filtra linhas do data.frame
+# mutate()    # cria novas colunas no data.frame (ou atualiza as colunas existentes)
+# summarise() + group_by() # sumariza o data.frame
+# left_join   # junta dois data.frames
+
+#######################################################################
+#                                   Pandas
+#######################################################################
 
 Ao importar a biblioteca *pandas* dessa forma, lembre-se que todas as suas funções serão carregadas. Caso você esteja usando o linux (é o meu caso), pode ser que você se depare com o seguinte erro:
 
