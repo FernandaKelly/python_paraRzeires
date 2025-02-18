@@ -609,30 +609,23 @@ Neste caso, usaríamos a função **mutate** e **case_when** para criar a variá
 
 df = df.assign(
     lucro = lambda x: x["receita"] - x["orcamento"])
-    
+#Tratativa para os valores faltantes para que possamos seguir com a ideia de aprendizagem.
+df["lucro"] = df["lucro"].fillna(0).astype(int)
+
 df.assign(    
-    lucro_cat = numpy.select(
-      [df.lucro >  1000000, df.lucro > 0],
-      ["Mais de milhão", "Pouco"],
-      "Não lucrou"
-  )
-)
-
-#     ).filter(["receita", "orcamento", "lucro"])
-
-lucrou_df = df.assign(
-    #lucro = lambda x: x["receita"] - x["orcamento"],
-    lucrou_bastante = lambda x: numpy.select(
+    lucro_cat = lambda x: numpy.select(
         [x.lucro >  1000000, x.lucro > 0, x.lucro.isnull()],
         ["Mais de milhão", "Pouco", "Sem info"],
         "Não lucrou"
     )
-)
-#).filter(["lucro", "lucrou_bastante"])
+  )
+
+
+#     ).filter(["receita", "orcamento", "lucro"])
 
 ```
 
-
+Outra função que também pode ajudar com essa mesma ideia de **ifelse** é a função **where**:
 
 ```{python}
 df.assign(
@@ -649,8 +642,7 @@ df.assign(
     )))
 )
 
-df = df["lucro"].fillna(0)
-
+#df = df["lucro"].fillna(0)
 ```
 
 
