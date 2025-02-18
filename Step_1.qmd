@@ -661,7 +661,25 @@ No R usamos o **summarize** junto ao **group_by** para conseguir medidas por agr
 
 Bora pensar em fazer isso com o python?
 
-Observando todo o contexto que construímos até aqui, acredito que seria interessante observar em qual gênero está concentrado (ou não) os maiores lucros, receita e orçamento.  
+Observando todo o contexto que construímos até aqui, acredito que seria interessante observar em qual gênero está concentrado (ou não) os maiores lucros, receita e orçamento.  Para isso, vamos utilizar a função **groupby** e a **agg**.
+
+- **A função .agg() no Python é usada para agregar valores de colunas em um DataFrame ou Series, aplicando funções estatísticas ou personalizadas. Ela é muito útil no pandas quando queremos resumir ou transformar dados de diferentes maneiras.**
+
+- **O .groupby() segue três etapas principais:**
+
+  - **Divisão – Os dados são separados em grupos com base em uma coluna.**
+  - **Aplicação – Aplicamos uma função estatística ou personalizada sobre cada grupo.**
+  - **Combinação – O resultado é reunido em um novo DataFrame ou Series.**
+
+Vamos lá?
+
+Primeiro vamos entender como funciona o **.groupby()** e para isso vou criar uma base de dados:
+
+```{python}
+df_by = df.groupby("generos").count()
+
+#df.info()
+```
 
 ```{python}
 customer_metrics = df1.groupby('customer_id').agg(
