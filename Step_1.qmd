@@ -612,7 +612,7 @@ df = df.assign(
 #Tratativa para os valores faltantes para que possamos seguir com a ideia de aprendizagem.
 df["lucro"] = df["lucro"].fillna(0).astype(int)
 
-df.assign(    
+df = df.assign(    
     lucro_cat = lambda x: numpy.select(
         [x.lucro >  1000000, x.lucro > 0, x.lucro.isnull()],
         ["Mais de milhão", "Pouco", "Sem info"],
@@ -645,17 +645,49 @@ df.assign(
 #df = df["lucro"].fillna(0)
 ```
 
+Queria dizer que "apanhei" com os erros que tive para conseguir construir essa nova variável. Infelizmente, a saída de erros do python não são esclarecedoras como o R é, mas consegui entender que algumas funções não conseguem trabalhar com NA's e essas funções não possuem parâmetros para atribuir o que fazer nesses casos.
 
+Mas e aí, temos muitos lucros?
 
-
-
-
+Conseguimos contar o n de cada categoria com a função **value_counts**:
 
 ```{python}
-frequency_table = df["receita"].value_counts(dropna=False)
-print(frequency_table)
-df["receita"].isna().sum()
+df.lucro_cat.value_counts()
 ```
+
+Poderíamos "brincar" com essa base de dados e ter insights bem legal somente com descritivas de sumarização de dados, mas este não é o meu intuito nesse momento.
+
+No R usamos o **summarize** junto ao **group_by** para conseguir medidas por agrupamentos de interesse e é bem fácil entender a dinâmica da utilização dessas duas funções que são MUITO utilizadas em nosso dia a dia como analistas. 
+
+Bora pensar em fazer isso com o python?
+
+Observando todo o contexto que construímos até aqui, acredito que seria interessante observar em qual gênero está concentrado (ou não) os maiores lucros, receita e orçamento.  
+
+```{python}
+customer_metrics = df1.groupby('customer_id').agg(
+                   total_spent=('amount', 'sum'),
+                   avg_purchase_value=('amount', 'mean'),
+                   num_purchases=('purchase_id', 'count'),
+                   most_frequent_category=('category', lambda x: x.mode()[0] if not x.mode().empty else None)
+).reset_index()
+
+df1['month'] = df1['purchase_date'].dt.to_period('M')
+
+monthly_trends = df1.groupby('month').agg(
+                 total_sales=('amount', 'sum'),
+                 avg_purchase_value=('amount', 'mean')
+).reset_index()
+```
+
+
+
+
+
+
+
+
+
+
 
 
 ####   Pivotagem
