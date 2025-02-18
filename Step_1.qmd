@@ -603,7 +603,6 @@ Poxa! De 874 gêneros, 288 aparecem somente uma vez, indicando que 33% dos filme
 df["receita"].isna().sum()
 ```
 
-
 Neste caso, usaríamos a função **mutate** e **case_when** para criar a variável lucro e depois uma dummy com o indicativo de lucro ou não. No python nós seguimos com a função **assign**.
 
 ```{python}
@@ -619,9 +618,24 @@ Neste caso, usaríamos a função **mutate** e **case_when** para criar a variá
 ```
 
 ```{python}
+# case when
+import numpy as np
+lucrou_df = imdb.assign(
+    lucro = lambda x: x["receita"] - x['orcamento'],
+    lucrou_bastante = lambda x: np.select(
+        [x.lucro >  1000000, x.lucro > 0, x.lucro.isnull()], 
+        ["Mais de milhão", "Pouco", "Sem info"], 
+        "Não lucrou"
+    )
+).filter(["lucro", "lucrou_bastante"])
+```
+
+
+
+
+```{python}
 frequency_table = df["receita"].value_counts(dropna=False)
 print(frequency_table)
-
 df["receita"].isna().sum()
 ```
 
