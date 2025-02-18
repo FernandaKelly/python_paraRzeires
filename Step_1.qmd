@@ -321,7 +321,7 @@ Na minha opinião é ruim, visto que a gente precisa saber o nome da variável b
 df["ano"]
 ```
 
-E como você pode ver, a variável ano está como **float64**, o que implica ter esse **.0** ao final. Vamos trocar isso rapidinho? Clato! Vamos selecionar a variável com o colchetes.
+E como você pode ver, a variável ano está como **float64**, o que implica ter esse **.0** ao final. Vamos trocar isso rapidinho? Claro! Vamos selecionar a variável com o colchetes.
 
 ```{python}
 df["ano"].fillna(0).astype(int)
@@ -606,23 +606,65 @@ df["receita"].isna().sum()
 Neste caso, usaríamos a função **mutate** e **case_when** para criar a variável lucro e depois uma dummy com o indicativo de lucro ou não. No python nós seguimos com a função **assign**.
 
 ```{python}
-(df.assign(
-    lucro =  df.receita - df.orcamento,
-    #lambda x: x.receita-x.orcamento,
-    # essa linha é igual a trocar o x. por imdb. e tirar o "lambda x"
-    # x. vira imdb., então:  x.receita-x.orcamento vira imdb.receita-imdb.orcamento
-    categoria_lucrou = lambda x: x.lucro > 0,
+
+df = df.assign(
+    lucro = lambda x: x["receita"] - x["orcamento"])
     
-).
- filter(["receita","orcamento", "lucro", "categoria_lucrou"]))
+df.assign(    
+    lucro_cat = numpy.select(
+      [df.lucro >  1000000, df.lucro > 0],
+      ["Mais de milhão", "Pouco"],
+      "Não lucrou"
+  )
+)
+
+#     ).filter(["receita", "orcamento", "lucro"])
+
+lucrou_df = df.assign(
+    #lucro = lambda x: x["receita"] - x["orcamento"],
+    lucrou_bastante = lambda x: numpy.select(
+        [x.lucro >  1000000, x.lucro > 0, x.lucro.isnull()],
+        ["Mais de milhão", "Pouco", "Sem info"],
+        "Não lucrou"
+    )
+)
+#).filter(["lucro", "lucrou_bastante"])
+
 ```
+
+
+
+```{python}
+df.assign(
+        lucro_cat = lambda x: numpy.where(
+            x.lucro > 1000000,
+            'lucro',
+            numpy.where(
+                x.lucro > 0,
+                'pouco lucro',
+                numpy.where(
+                  x.lucro.isnull(),
+                  'sem info',
+                'neutro'
+    )))
+)
+
+df = df["lucro"].fillna(0)
+
+```
+
+
+```{python}
+df["lucro"].head(5)
+```
+
 
 ```{python}
 # case when
-import numpy as np
-lucrou_df = imdb.assign(
+import numpy 
+lucrou_df = df.assign(
     lucro = lambda x: x["receita"] - x['orcamento'],
-    lucrou_bastante = lambda x: np.select(
+    lucrou_bastante = lambda x: numpy.select(
         [x.lucro >  1000000, x.lucro > 0, x.lucro.isnull()], 
         ["Mais de milhão", "Pouco", "Sem info"], 
         "Não lucrou"
