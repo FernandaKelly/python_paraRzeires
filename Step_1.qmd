@@ -548,6 +548,8 @@ No R nós temos o dplyr e suas funções que são incríveis, no python... Já �
 - ano
 - duracao
 - nota_imdb
+- receita
+- orcamento
 
 Com essas variáveis vamos conseguir trabalhar algumas funções importantes.
 
@@ -557,41 +559,26 @@ df_summ = df.filter(variaveis_summ)
 df_summ.info()
 ```
 
+A gente pode ver que a variável **duracao** está em minutos, mas nós queremos trabalhar com elas em hora e para isso precisamos aplicar alguma transformação. No R, usaríamos o mutate, mas aqui vamos usar  a função **assing**.
+
+- *A função .assign() do Pandas é usada para adicionar novas colunas ao DataFrame de forma funcional, ou seja, sem modificar o DataFrame original, a menos que você o reatribua.*
+
+Utilizando essa função:
+
 ```{python}
 
-
 df.assign(
-  duracao = df.duracao/60
-)
+  duracao_h = df.duracao/60
+).filter(["duracao_h"])
 
-df["duracao"]
-# (imdb.assign(
-#     lucro = lambda x: x.receita-x.orcamento,
-#     # essa linha é igual a trocar o x. por imdb. e tirar o "lambda x"
-#     # x. vira imdb., então:  x.receita-x.orcamento vira imdb.receita-imdb.orcamento
-#     categoria_lucrou = lambda x: x.lucro > 0,
-#     duracao = imdb.duracao/60
-# ).
-#  filter(["titulo","ano", "lucro", "duracao", "categoria_lucrou"]))
+#df["duracao_h"]
+
 ```
 
 
+Eu simplesmente A-D-O-R-E-I essa função (rzeire nenhum vai dizer o contrário rs).
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-A primeira pergunta que eu tenho é: Quantos gêneros nós temos?
+Mas vamos lá... A primeira pergunta que eu tenho é: Quantos gêneros nós temos?
 
 ```{python}
 df["generos"].unique()
@@ -610,9 +597,33 @@ print(df["generos"].value_counts().head(30))
 df["generos"].value_counts()[df["generos"].value_counts() == 1]
 ```
 
-Poxa! De 874 gêneros, 288 aparecem somente uma vez, indicando que 33% dos filmes são gêneros pouco produzidos.
+Poxa! De 874 gêneros, 288 aparecem somente uma vez, indicando que 33% dos filmes são gêneros pouco produzidos. E aí vem o questionamento: Será que estes gêneros lucram? A parte ruim é que temos muitos valores ausentes, totalizando 73% da amostra com NA, mas para "brincar" vamos continuar com essa ideia.
+
+```{python}
+df["receita"].isna().sum()
+```
 
 
+Neste caso, usaríamos a função **mutate** e **case_when** para criar a variável lucro e depois uma dummy com o indicativo de lucro ou não. No python nós seguimos com a função **assign**.
+
+```{python}
+(df.assign(
+    lucro =  df.receita - df.orcamento,
+    #lambda x: x.receita-x.orcamento,
+    # essa linha é igual a trocar o x. por imdb. e tirar o "lambda x"
+    # x. vira imdb., então:  x.receita-x.orcamento vira imdb.receita-imdb.orcamento
+    categoria_lucrou = lambda x: x.lucro > 0,
+    
+).
+ filter(["receita","orcamento", "lucro", "categoria_lucrou"]))
+```
+
+```{python}
+frequency_table = df["receita"].value_counts(dropna=False)
+print(frequency_table)
+
+df["receita"].isna().sum()
+```
 
 
 ####   Pivotagem
