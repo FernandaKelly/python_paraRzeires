@@ -646,23 +646,7 @@ df.assign(
 ```
 
 
-```{python}
-df["lucro"].head(5)
-```
 
-
-```{python}
-# case when
-import numpy 
-lucrou_df = df.assign(
-    lucro = lambda x: x["receita"] - x['orcamento'],
-    lucrou_bastante = lambda x: numpy.select(
-        [x.lucro >  1000000, x.lucro > 0, x.lucro.isnull()], 
-        ["Mais de milhão", "Pouco", "Sem info"], 
-        "Não lucrou"
-    )
-).filter(["lucro", "lucrou_bastante"])
-```
 
 
 
