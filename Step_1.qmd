@@ -673,13 +673,41 @@ Observando todo o contexto que construímos até aqui, acredito que seria intere
 
 Vamos lá?
 
-Primeiro vamos entender como funciona o **.groupby()** e para isso vou criar uma base de dados:
+Primeiro vamos entender como funciona o **.groupby()** e para isso vou criar uma base de dados com o agrupamento:
 
 ```{python}
 df_by = df.groupby("generos").count()
 
 #df.info()
 ```
+
+Veja que a lógica é idêntica a do group_by + summarise do R. Na saída acima temos a quantidade de filmes por gênero.
+
+Vamos fazer o lucro por gênero?
+
+```{python}
+df.groupby("generos")["lucro"].sum()
+```
+
+Viu que é mais parecido com o R do que a gente imagina? Mas agora eu quero olhar somente para o ano de 2020.
+
+```{python}
+df[df["ano"] == 2020].groupby("generos")["lucro"].sum()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ```{python}
 customer_metrics = df1.groupby('customer_id').agg(
