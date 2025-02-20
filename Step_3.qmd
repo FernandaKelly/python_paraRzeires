@@ -1,0 +1,50 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+jupyter: python3
+---
+
+## Numpy
+
+```{python}
+import numpy
+```
+
+```{python}
+num_array1 = numpy.array([1,2,3,4])
+num_array2 = numpy.array([5,6,7,8])
+```
+
+```{python}
+type(num_array1)
+```
+
+```{python}
+num_array1 + num_array2
+num_array1/num_array2
+num_array1**num_array2
+num_array1-num_array2
+```
+
+```{python}
+num_array1.mean()
+num_array1.min()
+num_array.std()
+num_array.max()
+```
+
+```{python}
+numpy.log10(num_array1)
+```
+
+Numpy é uma biblioteca que serve para você fazer contas com vetores, métodos matemáticos, enquanto o Pandas é uma biblioteca de manipulação de dados, então ela define o DataFrame e um milhão de métodos para mexer no DataFrame, tipo o statsModels é a biblioteca de estatística do Python.
+
+```{python}
+num_array1.astype("str")
+num_array1.astype("int")
+```
+
+```{python}
+num_array1.dtype
+```
