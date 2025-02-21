@@ -13,16 +13,16 @@ Error: no more error handlers available (recursive errors?); invoking 'abort' re
 
 Para resolvê-lo, você deve ir ao terminal e seguir com o seguinte comando,
 
-```{markdown}
+
 pip install pandas
-```
+
 
 Agora vamos importar a biblioteca de interesse.
 
-```{python}
+
 #Importação da biblioteca
 import pandas
-```
+
 
 *Se você não conseguiu instalar, volte no ponto de preparação.*
 
@@ -537,30 +537,4 @@ Vou falar sobre pivotagem no **step_2**. Esse será o próximo post.
 #                  avg_purchase_value=('amount', 'mean')
 # ).reset_index()
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
