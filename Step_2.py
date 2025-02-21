@@ -1,15 +1,4 @@
-# vamos pensar em manipulação de dados fazendo um paralelo com o dplyr.
-# dplyr: 6 verbos principais
-# select()    # seleciona colunas do data.frame
-# arrange()   # reordena as linhas do data.frame
-# filter()    # filtra linhas do data.frame
-# mutate()    # cria novas colunas no data.frame (ou atualiza as colunas existentes)
-# summarise() + group_by() # sumariza o data.frame
-# left_join   # junta dois data.frames
-
-#######################################################################
-#                                   Pandas
-#######################################################################
+## Pandas
 
 Ao importar a biblioteca *pandas* dessa forma, lembre-se que todas as suas funções serão carregadas. Caso você esteja usando o linux (é o meu caso), pode ser que você se depare com o seguinte erro:
 
@@ -113,7 +102,7 @@ Na minha opinião é ruim, visto que a gente precisa saber o nome da variável b
 df["ano"]
 ```
 
-E como você pode ver, a variável ano está como **float64**, o que implica ter esse **.0** ao final. Vamos trocar isso rapidinho? Clato! Vamos selecionar a variável com o colchetes.
+E como você pode ver, a variável ano está como **float64**, o que implica ter esse **.0** ao final. Vamos trocar isso rapidinho? Claro! Vamos selecionar a variável com o colchetes.
 
 ```{python}
 df["ano"].fillna(0).astype(int)
@@ -328,10 +317,236 @@ Acredito que já deu pra entender que a lógica de criação de variáveis é be
 
 ####   Sumarizar
 
+Uma parte BEMMM importante é a sumarização dos nossos dados. 
+
+Como assim Fê?
+
+Tentar trazer medidas de posição já é um ótimo início, mas muitas vezes queremos agrupar a base de dados por alguma variável e assim somar algum valor, fazer a média para entender algum comportamento ou simplesmente contar o número de observações.
+
+No R nós temos o dplyr e suas funções que são incríveis, no python... Já é um pouco diferente. Conhecendo a nossa base de dados, vamos selecionar algumas de interesse:
+
+- genero
+- ano
+- duracao
+- nota_imdb
+- receita
+- orcamento
+
+Com essas variáveis vamos conseguir trabalhar algumas funções importantes.
+
+```{python}
+variaveis_summ = ["generos", "ano", "duracao", "nota_imdb", "receita", "orcamento"]
+df_summ = df.filter(variaveis_summ)
+df_summ.info()
+```
+
+A gente pode ver que a variável **duracao** está em minutos, mas nós queremos trabalhar com elas em hora e para isso precisamos aplicar alguma transformação. No R, usaríamos o mutate, mas aqui vamos usar  a função **assing**.
+
+- *A função .assign() do Pandas é usada para adicionar novas colunas ao DataFrame de forma funcional, ou seja, sem modificar o DataFrame original, a menos que você o reatribua.*
+
+Utilizando essa função:
+
+```{python}
+
+df.assign(
+  duracao_h = df.duracao/60
+).filter(["duracao_h"])
+
+#df["duracao_h"]
+
+```
+
+
+Eu simplesmente A-D-O-R-E-I essa função (rzeire nenhum vai dizer o contrário rs).
+
+Mas vamos lá... A primeira pergunta que eu tenho é: Quantos gêneros nós temos?
+
+```{python}
+df["generos"].unique()
+```
+
+Parece ser um tantinho bom, mas quantos filmes temos em cada um deles?
+
+```{python}
+df["generos"].value_counts()
+print(df["generos"].value_counts().head(30))
+```
+
+É, já vimos que há muitos gêneros que aparecem apenas uma vez. Vamos ver quantos eles são?
+
+```{python}
+df["generos"].value_counts()[df["generos"].value_counts() == 1]
+```
+
+Poxa! De 874 gêneros, 288 aparecem somente uma vez, indicando que 33% dos filmes são gêneros pouco produzidos. E aí vem o questionamento: Será que estes gêneros lucram? A parte ruim é que temos muitos valores ausentes, totalizando 73% da amostra com NA, mas para "brincar" vamos continuar com essa ideia.
+
+```{python}
+df["receita"].isna().sum()
+```
+
+Neste caso, usaríamos a função **mutate** e **case_when** para criar a variável lucro e depois uma dummy com o indicativo de lucro ou não. No python nós seguimos com a função **assign**.
+
+```{python}
+
+df = df.assign(
+    lucro = lambda x: x["receita"] - x["orcamento"])
+#Tratativa para os valores faltantes para que possamos seguir com a ideia de aprendizagem.
+df["lucro"] = df["lucro"].fillna(0).astype(int)
+
+df = df.assign(    
+    lucro_cat = lambda x: numpy.select(
+        [x.lucro >  1000000, x.lucro > 0, x.lucro.isnull()],
+        ["Mais de milhão", "Pouco", "Sem info"],
+        "Não lucrou"
+    )
+  )
+
+
+#     ).filter(["receita", "orcamento", "lucro"])
+
+```
+
+Outra função que também pode ajudar com essa mesma ideia de **ifelse** é a função **where**:
+
+```{python}
+df.assign(
+        lucro_cat = lambda x: numpy.where(
+            x.lucro > 1000000,
+            'lucro',
+            numpy.where(
+                x.lucro > 0,
+                'pouco lucro',
+                numpy.where(
+                  x.lucro.isnull(),
+                  'sem info',
+                'neutro'
+    )))
+)
+
+#df = df["lucro"].fillna(0)
+```
+
+Queria dizer que "apanhei" com os erros que tive para conseguir construir essa nova variável. Infelizmente, a saída de erros do python não são esclarecedoras como o R é, mas consegui entender que algumas funções não conseguem trabalhar com NA's e essas funções não possuem parâmetros para atribuir o que fazer nesses casos.
+
+Mas e aí, temos muitos lucros?
+
+Conseguimos contar o n de cada categoria com a função **value_counts**:
+
+```{python}
+df.lucro_cat.value_counts()
+```
+
+Poderíamos "brincar" com essa base de dados e ter insights bem legal somente com descritivas de sumarização de dados, mas este não é o meu intuito nesse momento.
+
+No R usamos o **summarize** junto ao **group_by** para conseguir medidas por agrupamentos de interesse e é bem fácil entender a dinâmica da utilização dessas duas funções que são MUITO utilizadas em nosso dia a dia como analistas. 
+
+Bora pensar em fazer isso com o python?
+
+Observando todo o contexto que construímos até aqui, acredito que seria interessante observar em qual gênero está concentrado (ou não) os maiores lucros, receita e orçamento.  Para isso, vamos utilizar a função **groupby** e a **agg**.
+
+- **A função .agg() no Python é usada para agregar valores de colunas em um DataFrame ou Series, aplicando funções estatísticas ou personalizadas. Ela é muito útil no pandas quando queremos resumir ou transformar dados de diferentes maneiras.**
+
+- **O .groupby() segue três etapas principais:**
+
+  - **Divisão – Os dados são separados em grupos com base em uma coluna.**
+  - **Aplicação – Aplicamos uma função estatística ou personalizada sobre cada grupo.**
+  - **Combinação – O resultado é reunido em um novo DataFrame ou Series.**
+
+Vamos lá?
+
+Primeiro vamos entender como funciona o **.groupby()** e para isso vou criar uma base de dados com o agrupamento:
+
+```{python}
+df_by = df.groupby("generos").count()
+
+#df.info()
+```
+
+Veja que a lógica é idêntica a do group_by + summarise do R. Na saída acima temos a quantidade de filmes por gênero.
+
+Vamos fazer o lucro por gênero?
+
+```{python}
+df.groupby("generos")["lucro"].sum()
+```
+
+Viu que é mais parecido com o R do que a gente imagina? Mas agora eu quero olhar somente para o ano de 2020.
+
+```{python}
+df[df["ano"] == 2020].groupby("generos")["lucro"].sum()
+```
+
+Você conseguiu ver que até o momento usamos duas formas (ou funções) para filtrar a base de dados? 
+
+Usamos o sinal de **==** e a função **.filter**. Cada uma foi utilizada em um contexto diferente. 
+
+
+O do filter foi  esse:
+
+```{markdown}
+(df = df.assign(
+    lucro = lambda x: x["receita"] - x["orcamento"])).filter(["receita", "orcamento", "lucro"])
+#     ).filter(["receita", "orcamento", "lucro"])
+```
+
+E o do **==** foi:
+
+```{markdown}
+df[df["ano"] == 2020].groupby("generos")["lucro"].sum()
+```
+
+
+Eles são usados para propósitos diferentes no Pandas, e cada um tem sua aplicação específica. A função **.filter()** não é usada para filtrar linhas! Ela serve para selecionar **colunas** ou **índices** com base em critérios. Já o **==** filtra **linhas** com base em valores.
+
+E Fê, e aquela função **.agg** lá que você tinha comentado?
+
+É verdade, vamos falar sobre ela. Como estávamos falando da função **.groupby**, com o .agg() podemos aplicar múltiplas funções ao mesmo tempo. Isso é incrível e vem de encontro com a ideia do **summarise** do R.
+
+Vamos de exemplo:
+
+Nós somamos os lucros, que não deixa de ser uma medida ruim, mas vamos analisar a média, moda e desvio padrão por gênero e para aqueles que possuem um lucro diferente de 0. 
+
+```{python}
+lucro_metricas = df[df["lucro"] != 0] .groupby("generos").agg(
+                   total_lucro=('lucro', 'sum'),
+                   avg_lucro=('lucro', 'mean'),
+                   num_count=('id_filme', 'count')
+)
+```
+
+É incrível, né?
+
+Por enquanto, foi assim que iniciei os meus estudos do python. Para alguns já é um ótimo conhecimento, mas ainda falta a parte de pivotagem e um bom aprofundamento na biblioteca **numpy**. 
+
+Vou falar sobre pivotagem no **step_2**. Esse será o próximo post.
 
 
 
-####   Pivotagem
+```{python}
+# customer_metrics = df1.groupby('customer_id').agg(
+#                    total_spent=('amount', 'sum'),
+#                    avg_purchase_value=('amount', 'mean'),
+#                    num_purchases=('purchase_id', 'count'),
+#                    most_frequent_category=('category', lambda x: x.mode()[0] if not x.mode().empty else None)
+# ).reset_index()
+# 
+# df1['month'] = df1['purchase_date'].dt.to_period('M')
+# 
+# monthly_trends = df1.groupby('month').agg(
+#                  total_sales=('amount', 'sum'),
+#                  avg_purchase_value=('amount', 'mean')
+# ).reset_index()
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
