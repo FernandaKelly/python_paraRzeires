@@ -1,6 +1,8 @@
 ## Pandas
 
-Antes de tudo precisamos falar sobre o banco de dados:
+Antes de tudo precisamos falar sobre o banco de dados. Essa base de dados é advinda do pacote 
+
+
 
 
 
