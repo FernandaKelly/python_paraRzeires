@@ -1,6 +1,6 @@
 ## Pandas
 
-Antes de tudo precisamos falar sobre o banco de dados. Essa base de dados é advinda do pacote 
+Antes de tudo precisamos falar sobre o banco de dados. Essa base de dados é advinda do pacote , mas vocẽ pode baixar essa base de dado em vários formatos aqui.
 
 
 
