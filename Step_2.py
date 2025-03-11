@@ -1,13 +1,8 @@
 ## Pandas
 
-Antes de tudo precisamos falar sobre o banco de dados. Essa base de dados é advinda do pacote , mas vocẽ pode baixar essa base de dado em vários formatos aqui.
+Antes de tudo precisamos falar sobre o banco de dados. Essa base de dados é advinda do pacote , mas você pode baixar essa base de dado em vários formatos aqui.
 
-
-
-
-
-
-Ao importar a biblioteca *pandas* dessa forma, lembre-se que todas as suas funções serão carregadas. Caso você esteja usando o linux (é o meu caso), pode ser que você se depare com o seguinte erro:
+Ao importar a biblioteca *pandas*  lembre-se que todas as suas funções serão carregadas. Caso você esteja usando o linux (é o meu caso), pode ser que você se depare com o seguinte erro:
 
 ```{markdown}
 Error in py_call_impl(callable, call_args$unnamed, call_args$named) : 
@@ -525,7 +520,7 @@ lucro_metricas = df[df["lucro"] != 0] .groupby("generos").agg(
 
 Por enquanto, foi assim que iniciei os meus estudos do python. Para alguns já é um ótimo conhecimento, mas ainda falta a parte de pivotagem e um bom aprofundamento na biblioteca **numpy**. 
 
-Vou falar sobre pivotagem no **step_2**. Esse será o próximo post.
+Vou falar sobre pivotagem no **step_3**. Esse será o próximo post.
 
 
 
