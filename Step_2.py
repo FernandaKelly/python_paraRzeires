@@ -32,28 +32,26 @@ import pandas
 
 Vamos ler uma base de dados através da biblioteca pandas, que diferente do R, todas as opções de leitura de dados se encontram nessa mesma biblioteca.
 
-```{python}
 df = pandas.read_csv("dados/imdb.csv")
 type(df)
-```
 
-```{python}
 df
-```
 
-Essa leitura de banco de dados é mais fácil que você vai ver (rs), mas é bem possível que você se depare com alguns erros de encoding, de separadores ou decimais. A função reade_csv do pandas possui parâmetros para especificar cada um desses problemas com o intuito de solucioná-los. Veja a documentação da função.
+
+Essa leitura de banco de dados é mais fácil que você vai ver (rs), mas é bem possível que você se depare com alguns erros de encoding, de separadores ou decimais. 
+A função reade_csv do pandas possui parâmetros para especificar cada um desses problemas com o intuito de solucioná-los. Veja a documentação da função.
 
 Como defaut o python joga 'fora" todos os NA's quando usamos essa função:
 
-```{python}
 df.describe()
-```
+df.describe(include='all')
+
 
 Para saber o nome e tipo de classe das variáveis,
 
-```{python}
+
 df.info()
-```
+
 E assim conseguimos aplicar qualquer função de interesse na base de dados:
 
 ```{python}
