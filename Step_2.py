@@ -54,10 +54,8 @@ df.info()
 
 E assim conseguimos aplicar qualquer função de interesse na base de dados:
 
-```{python}
-df.sum()
+df.orcamento.mean()
 df.receita.sum()
-```
 
 É importante dizer que há um **help** assim como há no RStudio.
 Obs.: O python que me desculpe, mas esse help é bem ruim.
@@ -74,21 +72,20 @@ Vamos fazer um/dois exemplos de cada um desses verbos.
 
 Para ordenar linhas podemos utilizar **sort_index()** ou **sort_values()**. 
  
-```{python}
+df2 = df.sort_values('id_filme')
+df2
+
+
 df2 = df.sort_values(['id_filme', 'ano'])
-```
+
 
 É muito falado que na linguagem python o índice se inicia no **0** e, por isso, ao solicitar a ordenação pelo índice a primeira linha será a 0. E , caso seja de interesse, podemos ordenar de forma decrescente, visto que o defautl é na ordem crescente. Para isso basta utilizar dentro da função *sort_index* o parâmetro *ascending = False*. 
 
-```{python}
 df3 = df.sort_index(ascending = False)
-```
 
 E você pode pensar, mas o **sort_values** também não faz isso? FAZ SIM"
 
-```{python}
 df4 = df.sort_values(['id_filme', 'ano'], ascending = False)
-```
 
 ####   Selecionar linhas/colunas
 
@@ -98,27 +95,24 @@ df4 = df.sort_values(['id_filme', 'ano'], ascending = False)
 
 Na minha opinião é ruim, visto que a gente precisa saber o nome da variável bem certinho. 
 
-```{python}
+
 df["ano"]
-```
+
 
 E como você pode ver, a variável ano está como **float64**, o que implica ter esse **.0** ao final. Vamos trocar isso rapidinho? Claro! Vamos selecionar a variável com o colchetes.
 
-```{python}
 df["ano"].fillna(0).astype(int)
-```
+df["ano"].astype(int)
 
 Não quer tratar os NA's agora? Então vamos utilizar somente **astype('Int64')**.
 
-```{python}
+
 df["ano"].astype('Int64')
-```
+
 
 Mas, nesse momento nós estamos estudando o pandas, então vamos utilizar o pandar também para fazer essa transformação. Isso pode ser útil para reduzir o uso de memória ao escolher o tipo inteiro mais eficiente.
 
-```{python}
 pandas.to_numeric(df["ano"], downcast="integer")
-```
 
 Fer, que parâmetro é esse aí? **Downcast**?
 
@@ -128,36 +122,36 @@ Esse parâmetro economiza memória ao escolher automaticamente int8, int16 ou in
   - Utilizando a função .loc
   
 Esse método é estilo o que usamos no R. Veja que estamos usando o **:** como indexador das linhas.
-  
-```{python}
+
+
 df.loc[:, ['ano']]
-```
+
   
   - Utilizando a função .iloc
 
 Essa função é A M-E-L-H-O-R para os Rzeires (na minha opinião), pois utilizamos as posições das variáveis. Veja só:
 
-```{python}
+
 df.iloc[:, 2]
-```
+
 
 A ideia é selecionar mais colunas? Podemos fazer por posição das variáveis do dataframe:
 
-```{python}
+
 df.iloc[:, 1:4]
-```
+
 
 E como selecionar as linhas? Acredito que agora tenha ficado mais fácil.
 
-```{python}
+
 df.iloc[1:10, 1:4]
-```
+
 
 Outra forma de selecionar colunas é em forma de atributo. Se vê muito em tutoriais essa forma de seleção de colunas.
 
-```{python}
+
 df.ano[1:10]
-```
+
 
 ####   Criar colunas
 
@@ -167,7 +161,9 @@ Nessa etapa eu fui aprender com o [Programação Dinâmica](https://www.youtube.
 
 Vamos lá?
 
-Antes de tudo que aplicar algo que faça essas variáveis float se tornarem int, mas todas de uma vez só para não perder tempo. Eu achei incrível a forma que o python atua com essa necessidade e acabei aprendendo duas novas funçlões, a **select_dtypes**, **apply** e a partir dela o parâmetro **errors = "coerce"** que transforma a notação científica em um número normal. Essa transformação foi necessária devido a algumas variáveis estarem em notação cientifica.
+Antes de tudo que aplicar algo que faça essas variáveis float se tornarem int, mas todas de uma vez só para não perder tempo. 
+
+Eu achei incrível a forma que o python atua com essa necessidade e acabei aprendendo duas novas funçlões, a **select_dtypes**, **apply** e a partir dela o parâmetro **errors = "coerce"** que transforma a notação científica em um número normal. Essa transformação foi necessária devido a algumas variáveis estarem em notação cientifica.
 
 Como tratativa de float -inf ou inf, vamos alterá-las por NA:
 
