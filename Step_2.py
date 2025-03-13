@@ -163,13 +163,14 @@ Vamos lá?
 
 Antes de tudo que aplicar algo que faça essas variáveis float se tornarem int, mas todas de uma vez só para não perder tempo. 
 
-Eu achei incrível a forma que o python atua com essa necessidade e acabei aprendendo duas novas funçlões, a **select_dtypes**, **apply** e a partir dela o parâmetro **errors = "coerce"** que transforma a notação científica em um número normal. Essa transformação foi necessária devido a algumas variáveis estarem em notação cientifica.
+Eu achei incrível a forma que o python atua com essa necessidade e acabei aprendendo duas novas funçlões, a **select_dtypes**, 
+**apply** e a partir dela o parâmetro **errors = "coerce"** que transforma a notação científica em um número normal. 
+Essa transformação foi necessária devido a algumas variáveis estarem em notação cientifica.
 
 Como tratativa de float -inf ou inf, vamos alterá-las por NA:
 
-```{python}
 df.replace([float("inf"), float("-inf")], pandas.NA, inplace=True) 
-```
+
 
 Uma das formas de encontrar as variáveis da classe float na base de dados é utilizando a função **select_dtypes**, sendo assim:
 
@@ -192,13 +193,13 @@ As variáveis flot são:
 
 Coloquei elas em um vetor para facilitar:
 
-```{python}
+
 colunas_float = ["ano", "orcamento", "receita", "receita_eua", "nota_imdb", "num_criticas_publico", "num_criticas_critica"]
-```
+
 
 Seguindo a transformação:
 
-```{python}
+
 
 df[df.select_dtypes(include="float").columns] = df.select_dtypes(include="float").apply(pandas.to_numeric, errors = "coerce").round(0).astype("Int64")
 
@@ -214,7 +215,7 @@ df[df.select_dtypes(include="float").columns] = df.select_dtypes(include="float"
 #   .astype('Int64')
 #   )
 
-```
+
 
 E você estar se perguntando: Fer, porquê você usou o **.astype** após aplicar o **pandas.to_mumeric** e o **.round** antes do **.astype**:?
 
@@ -228,35 +229,32 @@ Vai dar E-R-R-O, pois estes casos não conseguem ser convestido e, por isso, pre
 
 Observando a base de dados após a manipulação:
 
-```{python}
 df.dtypes
 df.info()
-```
+
 
 E essa **data_lancamento**?
 
-```{python}
 
 type(df["data_lancamento"])
 
-```
+
 
 Veja que no describe essa variável se encontra como objetc e classe **pandas.core.series.Series**. Precisamos que ela seja considerada como date/data (Poxa! Se data no R já dava trabalho, espero que o python nos ajude de uma forma melhor em relação a isso.).
 
 Com o pandas podemos utilizar a função bem intuitiva que é **to_datetime** para converter essa variável. Mas, veja que dá um errinho aí...
 
-```{python}
-#df['data_lancamento'] = pandas.to_datetime(df['data_lancamento'])
-```
+
+df['data_lancamento'] = pandas.to_datetime(df['data_lancamento'])
+
 
 
 ```{markdown}
 Error in py_call_impl(callable, call_args$unnamed, call_args$named) : 
-  Evaluation error: NameError: name 'pandas' is not defined
-Run `reticulate::py_last_error()` for details..
-Erros durante o embrulho: Evaluation error: NameError: name 'pandas' is not defined
-Run `reticulate::py_last_error()` for details..
-Error: no more error handlers available (recursive errors?); invoking 'abort' restart
+  Evaluation error: ValueError: time data "1990" doesn't match format "%Y-%m-%d", at position 29. You might want to try:
+    - passing `format` if your strings have a consistent format;
+    - passing `format='ISO8601'` if your strings are all ISO8601 but not necessarily in exactly the same format;
+    - passing `format='mixed'`, and the format will be inferred for each element individually. You might want to use `dayfirst` alongside this.
 ```
 
 Ele reclama do formato da nossa data que é "%Y-%m-%d" e nos dá que algumas observações que não estão nesse formato. E sim, nós temos casos em que temos **somente** o ano e não a data por inteiro.
