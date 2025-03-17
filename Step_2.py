@@ -248,14 +248,12 @@ Com o pandas podemos utilizar a função bem intuitiva que é **to_datetime** pa
 df['data_lancamento'] = pandas.to_datetime(df['data_lancamento'])
 
 
-
-```{markdown}
 Error in py_call_impl(callable, call_args$unnamed, call_args$named) : 
   Evaluation error: ValueError: time data "1990" doesn't match format "%Y-%m-%d", at position 29. You might want to try:
     - passing `format` if your strings have a consistent format;
     - passing `format='ISO8601'` if your strings are all ISO8601 but not necessarily in exactly the same format;
     - passing `format='mixed'`, and the format will be inferred for each element individually. You might want to use `dayfirst` alongside this.
-```
+
 
 Ele reclama do formato da nossa data que é "%Y-%m-%d" e nos dá que algumas observações que não estão nesse formato. E sim, nós temos casos em que temos **somente** o ano e não a data por inteiro.
 
@@ -266,46 +264,53 @@ Podemos resolver isso identificando e substituindo as linhas que contêm apenas 
 - *A biblioteca re do Python é uma biblioteca padrão que permite trabalhar com expressões regulares. Com ela, é possível procurar padrões de texto, como todas as palavras que começam com "a" ou todas as frases que terminam com "!".* 
 
 
-```{python}
+
 import re
-```
+
 
 Sendo assim, vamos alterar aquelas observações com apenas 4 digitos para valores ausentes utilizando as blibliotecas **re** e **pandas**:
 
-```{python}
+
 
 data_lancamentoN2 = "data_lancamento"
 mascara_anos = df[data_lancamentoN2].astype(str).str.match(r"^\d{4}$")
+
 
 # Substituir os anos isolados por NaN
 df.loc[mascara_anos, data_lancamentoN2] = pandas.NA
 
 # Agora, converter para datetime e extrair apenas a data
-df[data_lancamentoN2] = pandas.to_datetime(df[data_lancamentoN2], errors="coerce").dt.date
-
-```
+df['data_lancamentoN2'] = pandas.to_datetime(df[data_lancamentoN2], errors="coerce")
 
 Obs.: usamos o parâmetro **errors="coerce"** em funções como pd.to_numeric() ou pd.to_datetime() pois estes substituem os valores inválidos por NaN (Not a Number) ou NaT (Not a Time), em vez de gerar um erro.
 
 Será que deu certo?
 
-```{python}
+
 # Verificar o resultado
-print(df[data_lancamentoN2].head())
-```
+print(df['data_lancamentoN2'].head(10))
+
+
+Vamos contar a quantidade de valores faltantes existente?
+
+valor_na = df['data_lancamentoN2'].isna().sum()
+valor_na
+
+df.info()
+
 
 Se fosse no R, provavelmente eu iria utilizar a função **case_when** ou o nosso querido **ifelse**, mas aqui no python temos outra opção: utilizar a função **where** da biblioteca numpy (vamos estudar ela no próximo post).
 
-```{python}
-import numpy
-```
 
-```{python}
+import numpy
+
+
+
 data_lancamentoN3 = "data_lancamento"
-df[data_lancamentoN3] = numpy.where(mascara_anos, pandas.NA, df[data_lancamentoN3])
-df[data_lancamentoN3]  = data_lancamentoN3
+df['data_lancamentoN3'] = numpy.where(mascara_anos, pandas.NA, df[data_lancamentoN3])
+df['data_lancamentoN3']  = data_lancamentoN3
 print(df[data_lancamentoN3].head())
-```
+
 
 Acredito que já deu pra entender que a lógica de criação de variáveis é bem parecida com a do R e isso já é mais do que meio caminho andado no universo de ETL.
 
@@ -328,11 +333,11 @@ No R nós temos o dplyr e suas funções que são incríveis, no python... Já �
 
 Com essas variáveis vamos conseguir trabalhar algumas funções importantes.
 
-```{python}
+
 variaveis_summ = ["generos", "ano", "duracao", "nota_imdb", "receita", "orcamento"]
 df_summ = df.filter(variaveis_summ)
 df_summ.info()
-```
+
 
 A gente pode ver que a variável **duracao** está em minutos, mas nós queremos trabalhar com elas em hora e para isso precisamos aplicar alguma transformação. No R, usaríamos o mutate, mas aqui vamos usar  a função **assing**.
 
@@ -340,11 +345,8 @@ A gente pode ver que a variável **duracao** está em minutos, mas nós queremos
 
 Utilizando essa função:
 
-```{python}
 
-df.assign(
-  duracao_h = df.duracao/60
-).filter(["duracao_h"])
+df.assign(duracao_h = df.duracao/60).filter(["duracao_h"])
 
 #df["duracao_h"]
 
@@ -355,32 +357,31 @@ Eu simplesmente A-D-O-R-E-I essa função (rzeire nenhum vai dizer o contrário 
 
 Mas vamos lá... A primeira pergunta que eu tenho é: Quantos gêneros nós temos?
 
-```{python}
+
 df["generos"].unique()
-```
 
 Parece ser um tantinho bom, mas quantos filmes temos em cada um deles?
 
-```{python}
+
 df["generos"].value_counts()
 print(df["generos"].value_counts().head(30))
-```
+
 
 É, já vimos que há muitos gêneros que aparecem apenas uma vez. Vamos ver quantos eles são?
 
-```{python}
+
 df["generos"].value_counts()[df["generos"].value_counts() == 1]
-```
+
 
 Poxa! De 874 gêneros, 288 aparecem somente uma vez, indicando que 33% dos filmes são gêneros pouco produzidos. E aí vem o questionamento: Será que estes gêneros lucram? A parte ruim é que temos muitos valores ausentes, totalizando 73% da amostra com NA, mas para "brincar" vamos continuar com essa ideia.
 
-```{python}
+
 df["receita"].isna().sum()
-```
+
 
 Neste caso, usaríamos a função **mutate** e **case_when** para criar a variável lucro e depois uma dummy com o indicativo de lucro ou não. No python nós seguimos com a função **assign**.
 
-```{python}
+
 
 df = df.assign(
     lucro = lambda x: x["receita"] - x["orcamento"])
@@ -398,11 +399,11 @@ df = df.assign(
 
 #     ).filter(["receita", "orcamento", "lucro"])
 
-```
+
 
 Outra função que também pode ajudar com essa mesma ideia de **ifelse** é a função **where**:
 
-```{python}
+
 df.assign(
         lucro_cat = lambda x: numpy.where(
             x.lucro > 1000000,
@@ -418,7 +419,7 @@ df.assign(
 )
 
 #df = df["lucro"].fillna(0)
-```
+
 
 Queria dizer que "apanhei" com os erros que tive para conseguir construir essa nova variável. Infelizmente, a saída de erros do python não são esclarecedoras como o R é, mas consegui entender que algumas funções não conseguem trabalhar com NA's e essas funções não possuem parâmetros para atribuir o que fazer nesses casos.
 
@@ -426,9 +427,9 @@ Mas e aí, temos muitos lucros?
 
 Conseguimos contar o n de cada categoria com a função **value_counts**:
 
-```{python}
+
 df.lucro_cat.value_counts()
-```
+
 
 Poderíamos "brincar" com essa base de dados e ter insights bem legal somente com descritivas de sumarização de dados, mas este não é o meu intuito nesse momento.
 
@@ -450,25 +451,24 @@ Vamos lá?
 
 Primeiro vamos entender como funciona o **.groupby()** e para isso vou criar uma base de dados com o agrupamento:
 
-```{python}
+
 df_by = df.groupby("generos").count()
 
 #df.info()
-```
+
 
 Veja que a lógica é idêntica a do group_by + summarise do R. Na saída acima temos a quantidade de filmes por gênero.
 
 Vamos fazer o lucro por gênero?
 
-```{python}
 df.groupby("generos")["lucro"].sum()
-```
+
 
 Viu que é mais parecido com o R do que a gente imagina? Mas agora eu quero olhar somente para o ano de 2020.
 
-```{python}
+
 df[df["ano"] == 2020].groupby("generos")["lucro"].sum()
-```
+
 
 Você conseguiu ver que até o momento usamos duas formas (ou funções) para filtrar a base de dados? 
 
@@ -477,17 +477,17 @@ Usamos o sinal de **==** e a função **.filter**. Cada uma foi utilizada em um 
 
 O do filter foi  esse:
 
-```{markdown}
+
 (df = df.assign(
     lucro = lambda x: x["receita"] - x["orcamento"])).filter(["receita", "orcamento", "lucro"])
 #     ).filter(["receita", "orcamento", "lucro"])
-```
+
 
 E o do **==** foi:
 
-```{markdown}
+
 df[df["ano"] == 2020].groupby("generos")["lucro"].sum()
-```
+
 
 
 Eles são usados para propósitos diferentes no Pandas, e cada um tem sua aplicação específica. A função **.filter()** não é usada para filtrar linhas! Ela serve para selecionar **colunas** ou **índices** com base em critérios. Já o **==** filtra **linhas** com base em valores.
@@ -500,13 +500,13 @@ Vamos de exemplo:
 
 Nós somamos os lucros, que não deixa de ser uma medida ruim, mas vamos analisar a média, moda e desvio padrão por gênero e para aqueles que possuem um lucro diferente de 0. 
 
-```{python}
+
 lucro_metricas = df[df["lucro"] != 0] .groupby("generos").agg(
                    total_lucro=('lucro', 'sum'),
                    avg_lucro=('lucro', 'mean'),
                    num_count=('id_filme', 'count')
 )
-```
+
 
 É incrível, né?
 
