@@ -1,5 +1,10 @@
 ## Pandas
 
+Antes de tudo precisamos falar sobre o banco de dados:
+
+
+
+
 Ao importar a biblioteca *pandas* dessa forma, lembre-se que todas as suas funções serão carregadas. Caso você esteja usando o linux (é o meu caso), pode ser que você se depare com o seguinte erro:
 
 ```{markdown}
